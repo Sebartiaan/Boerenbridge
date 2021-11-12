@@ -67,8 +67,12 @@ public class Card implements Comparable<Card> {
 	}
 
 	public CardValue getValue() {
-		return value;
+            return value;
 	}
+        
+        public String getHumanReadableString(){
+            return suit.getNlNaam() + " "+ value.getNlNaam().toLowerCase();
+        }
         
         public ImageIcon getImage(){
             StringBuilder builder = new StringBuilder();

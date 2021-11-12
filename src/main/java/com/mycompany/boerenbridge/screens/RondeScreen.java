@@ -4,15 +4,28 @@
  */
 package com.mycompany.boerenbridge.screens;
 
+import com.mycompany.boerenbridge.AbstractPlayer;
 import com.mycompany.boerenbridge.Card;
 import com.mycompany.boerenbridge.Deck;
 import com.mycompany.boerenbridge.Game;
+import com.mycompany.boerenbridge.Hand;
 import com.mycompany.boerenbridge.RealPlayer;
+import com.mycompany.boerenbridge.RobotPlayer;
 import com.mycompany.boerenbridge.Round;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.regex.Pattern;
 import javax.swing.JButton;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+import javax.swing.WindowConstants;
 
 /**
  *
@@ -20,24 +33,50 @@ import javax.swing.SpinnerNumberModel;
  */
 public class RondeScreen extends javax.swing.JFrame {
     
-    List<JButton> cardButtons = new ArrayList<>();
+    LinkedHashMap<JButton, Card> cardButtons = new LinkedHashMap<>();
     private final Round round;
+    private final Game game;
+    private boolean userInputAllowed = false;
+    private Hand currentHand;
 
     /**
      * Creates new form RondeScreen
      */
     public RondeScreen(Round round) {
         this.round = round;
+        this.game = Game.getSingleton();
         initComponents();
+    }
+
+    public void startRonde() {
+        fillNames();
         fillCardButtons();
         Deck deck = new Deck();
         deck.shuffle();
-        RealPlayer realPlayer = Game.getSingleton().getRealPlayer();
-        final List<Card> cardsOfPlayer = deck.drawCards(round.getNumberOfCards());
-        realPlayer.setCurrentCards(cardsOfPlayer);
-        drawCards(cardsOfPlayer);
-        fillSpinner();
+        for (AbstractPlayer player : game.getPlayers()) {
+            player.setCards(deck.drawCards(round.getNumberOfCards()));
+        }
+        RealPlayer realPlayer = game.getRealPlayer();
+        final List<Card> cardsOfPlayer = realPlayer.getCards();
+        paintCards(cardsOfPlayer);
+        
+        doRobotSlagenGuesses(round.getRobotsBeforePlayer());
+        doRealPlayerSlagenGuess();
+        
+        fillSlagen();
+        
+        currentHand = round.getNextHand();
+        currentHand.setFirstPlayer(round.getFirstPlayer());
+        startNextHand(currentHand);
     }
+
+    public void doRealPlayerSlagenGuess() {
+        AantalSlagenDialog aantalSlagenDialog = new AantalSlagenDialog(this, rootPaneCheckingEnabled, round);
+        aantalSlagenDialog.setLocationRelativeTo(this);
+        aantalSlagenDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        aantalSlagenDialog.setVisible(true);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,97 +101,170 @@ public class RondeScreen extends javax.swing.JFrame {
         card11 = new javax.swing.JButton();
         card12 = new javax.swing.JButton();
         card13 = new javax.swing.JButton();
-        playedCardRealPlayer = new javax.swing.JButton();
-        playedCard1 = new javax.swing.JButton();
-        playedCard2 = new javax.swing.JButton();
-        playedCard3 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jButton1 = new javax.swing.JButton();
+        notAllowedSlagenLabel = new javax.swing.JLabel();
+        topCard = new javax.swing.JButton();
+        rightCard = new javax.swing.JButton();
+        leftCard = new javax.swing.JButton();
+        bottomCard = new javax.swing.JButton();
+        topPlayerInfo = new java.awt.List();
+        leftPlayerInfo = new java.awt.List();
+        bottomPlayerInfo = new java.awt.List();
+        rightPlayerInfo = new java.awt.List();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         card1.setIconTextGap(0);
-
-        card2.setIconTextGap(0);
-
-        card3.setIconTextGap(0);
-
-        card4.setIconTextGap(0);
-
-        card5.setIconTextGap(0);
-
-        card6.setIconTextGap(0);
-
-        card7.setIconTextGap(0);
-
-        card8.setIconTextGap(0);
-
-        card9.setIconTextGap(0);
-
-        card10.setIconTextGap(0);
-
-        card11.setIconTextGap(0);
-
-        card12.setIconTextGap(0);
-
-        card13.setIconTextGap(0);
-
-        playedCardRealPlayer.setIconTextGap(0);
-
-        playedCard1.setIconTextGap(0);
-
-        playedCard2.setIconTextGap(0);
-        playedCard2.addActionListener(new java.awt.event.ActionListener() {
+        card1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                playedCard2ActionPerformed(evt);
+                card1ActionPerformed(evt);
             }
         });
 
-        playedCard3.setIconTextGap(0);
+        card2.setIconTextGap(0);
+        card2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                card2ActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Hoeveel slagen denk je te halen?");
+        card3.setIconTextGap(0);
+        card3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                card3ActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Ok");
+        card4.setIconTextGap(0);
+        card4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                card4ActionPerformed(evt);
+            }
+        });
+
+        card5.setIconTextGap(0);
+        card5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                card5ActionPerformed(evt);
+            }
+        });
+
+        card6.setIconTextGap(0);
+        card6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                card6ActionPerformed(evt);
+            }
+        });
+
+        card7.setIconTextGap(0);
+        card7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                card7ActionPerformed(evt);
+            }
+        });
+
+        card8.setIconTextGap(0);
+        card8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                card8ActionPerformed(evt);
+            }
+        });
+
+        card9.setIconTextGap(0);
+        card9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                card9ActionPerformed(evt);
+            }
+        });
+
+        card10.setIconTextGap(0);
+        card10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                card10ActionPerformed(evt);
+            }
+        });
+
+        card11.setIconTextGap(0);
+        card11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                card11ActionPerformed(evt);
+            }
+        });
+
+        card12.setIconTextGap(0);
+        card12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                card12ActionPerformed(evt);
+            }
+        });
+
+        card13.setIconTextGap(0);
+        card13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                card13ActionPerformed(evt);
+            }
+        });
+
+        topCard.setIconTextGap(0);
+
+        rightCard.setIconTextGap(0);
+        rightCard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rightCardActionPerformed(evt);
+            }
+        });
+
+        leftCard.setIconTextGap(0);
+
+        bottomCard.setIconTextGap(0);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(432, 432, 432)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(playedCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(playedCard2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(playedCardRealPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(playedCard3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(649, 649, 649)
+                        .addComponent(notAllowedSlagenLabel)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(card1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(card2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(card3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(card4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(card5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(topCard, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bottomCard, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(topPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 5, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(leftPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(leftCard, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(84, 84, 84)
+                                .addComponent(rightCard, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(card1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(card2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(card3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(card4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(card5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(card6, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card8, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bottomPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(card7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(card8, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(card9, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -163,34 +275,35 @@ public class RondeScreen extends javax.swing.JFrame {
                                 .addComponent(card12, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(card13, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(54, 54, 54)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1)))))
-                .addContainerGap(75, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 337, Short.MAX_VALUE)
+                                .addComponent(rightPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(204, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(topPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addComponent(topCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(rightCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(playedCard3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(playedCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(123, 123, 123))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(playedCard2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addComponent(playedCardRealPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)))
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(63, 63, 63)
+                            .addComponent(leftCard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(leftPlayerInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rightPlayerInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bottomCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(notAllowedSlagenLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(bottomPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(card13, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(card12, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -212,28 +325,82 @@ public class RondeScreen extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(30, 30, 30))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(157, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(159, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addContainerGap(100, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(24, 24, 24))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void playedCard2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playedCard2ActionPerformed
+    private void rightCardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rightCardActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_playedCard2ActionPerformed
+    }//GEN-LAST:event_rightCardActionPerformed
+
+    private void card1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card1ActionPerformed
+        realPlayerPicksCard(card1);
+    }//GEN-LAST:event_card1ActionPerformed
+
+    private void card2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card2ActionPerformed
+         realPlayerPicksCard(card2);
+    }//GEN-LAST:event_card2ActionPerformed
+
+    private void card3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card3ActionPerformed
+         realPlayerPicksCard(card3);
+    }//GEN-LAST:event_card3ActionPerformed
+
+    private void card4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card4ActionPerformed
+         realPlayerPicksCard(card4);
+    }//GEN-LAST:event_card4ActionPerformed
+
+    private void card5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card5ActionPerformed
+         realPlayerPicksCard(card5);
+    }//GEN-LAST:event_card5ActionPerformed
+
+    private void card6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card6ActionPerformed
+         realPlayerPicksCard(card6);
+    }//GEN-LAST:event_card6ActionPerformed
+
+    private void card7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card7ActionPerformed
+         realPlayerPicksCard(card7);
+    }//GEN-LAST:event_card7ActionPerformed
+
+    private void card8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card8ActionPerformed
+         realPlayerPicksCard(card8);
+    }//GEN-LAST:event_card8ActionPerformed
+
+    private void card9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card9ActionPerformed
+         realPlayerPicksCard(card9);
+    }//GEN-LAST:event_card9ActionPerformed
+
+    private void card10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card10ActionPerformed
+         realPlayerPicksCard(card10);
+    }//GEN-LAST:event_card10ActionPerformed
+
+    private void card11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card11ActionPerformed
+         realPlayerPicksCard(card11);
+    }//GEN-LAST:event_card11ActionPerformed
+
+    private void card12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card12ActionPerformed
+         realPlayerPicksCard(card12);
+    }//GEN-LAST:event_card12ActionPerformed
+
+    private void card13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card13ActionPerformed
+         realPlayerPicksCard(card13);
+    }//GEN-LAST:event_card13ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bottomCard;
+    private java.awt.List bottomPlayerInfo;
     private javax.swing.JButton card1;
     private javax.swing.JButton card10;
     private javax.swing.JButton card11;
@@ -247,46 +414,263 @@ public class RondeScreen extends javax.swing.JFrame {
     private javax.swing.JButton card7;
     private javax.swing.JButton card8;
     private javax.swing.JButton card9;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JButton playedCard1;
-    private javax.swing.JButton playedCard2;
-    private javax.swing.JButton playedCard3;
-    private javax.swing.JButton playedCardRealPlayer;
+    private javax.swing.JButton leftCard;
+    private java.awt.List leftPlayerInfo;
+    private javax.swing.JLabel notAllowedSlagenLabel;
+    private javax.swing.JButton rightCard;
+    private java.awt.List rightPlayerInfo;
+    private javax.swing.JButton topCard;
+    private java.awt.List topPlayerInfo;
     // End of variables declaration//GEN-END:variables
 
     private void fillCardButtons() {
-        cardButtons.add(card1);
-        cardButtons.add(card2);
-        cardButtons.add(card3);
-        cardButtons.add(card4);
-        cardButtons.add(card5);
-        cardButtons.add(card6);
-        cardButtons.add(card7);
-        cardButtons.add(card8);
-        cardButtons.add(card9);
-        cardButtons.add(card10);
-        cardButtons.add(card11);
-        cardButtons.add(card12);
-        cardButtons.add(card13);
+        cardButtons.put(card1, null);
+        cardButtons.put(card2, null);
+        cardButtons.put(card3, null);
+        cardButtons.put(card4, null);
+        cardButtons.put(card5, null);
+        cardButtons.put(card6, null);
+        cardButtons.put(card7, null);
+        cardButtons.put(card8, null);
+        cardButtons.put(card9, null);
+        cardButtons.put(card10, null);
+        cardButtons.put(card11, null);
+        cardButtons.put(card12, null);
+        cardButtons.put(card13, null);
     }
 
-    private void drawCards(List<Card> cardsOfPlayer) {
+    private void paintCards(List<Card> cardsOfPlayer) {
         int counter = 0;
         for (Card card : cardsOfPlayer) {
-            JButton cardButton = cardButtons.get(counter);
+            JButton cardButton = getNthElement(cardButtons.keySet(), counter);
+            cardButtons.put(cardButton, card);
             cardButton.setIcon(card.getImage());
             counter++;
         }
     }
 
-    private void fillSpinner() {
-        SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel();
-        spinnerNumberModel.setMaximum(round.getNumberOfCards());
-        spinnerNumberModel.setMinimum(0);
-        spinnerNumberModel.setValue(round.getNumberOfCards()/4);
-        jSpinner1.setModel(spinnerNumberModel);
+
+    public void doRemainingRobotGuesses() {
+        for (RobotPlayer robot : round.getRobotsAfterPlayer()) {
+            final int guess = robot.guessSlagen(round);
+            round.setSlagenFor(robot, guess);
+        }
+    }
+    
+    public void doRobotSlagenGuesses(List<RobotPlayer> robots ){
+        for (RobotPlayer robot : robots) {
+            final int guess = robot.guessSlagen(round);
+            round.setSlagenFor(robot, guess);
+        }
+    }
+
+    public void createTroefScreen() {
+        final TroefDialog troefDialog = new TroefDialog(this.round, this, true);
+        troefDialog.setLocationRelativeTo(this);
+        troefDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        troefDialog.setVisible(true);
+    }
+
+    private void fillNames() {
+        for (AbstractPlayer player : game.getPlayers()) {
+            switch (player.getPosition()) {
+                case LEFT:
+                    leftPlayerInfo.add(player.getName());
+                    break;
+                case TOP:
+                    topPlayerInfo.add(player.getName());
+                    break;
+                case RIGHT:
+                    rightPlayerInfo.add(player.getName());
+                    break;
+                case BOTTOM:
+                    bottomPlayerInfo.add(player.getName());
+                    break;
+                default:
+                    throw new AssertionError(player.getPosition().name());
+            }
+        }
+    }
+    
+    private void fillSlagen() {
+        for (AbstractPlayer player : game.getPlayers()) {
+            final String slagen = "Gegokt: " + String.valueOf(round.getSlagenFor(player));
+            switch (player.getPosition()) {
+                case LEFT:
+                    leftPlayerInfo.add("");
+                    leftPlayerInfo.add(slagen);
+                    break;
+                case TOP:
+                    topPlayerInfo.add("");
+                    topPlayerInfo.add(slagen);
+                    break;
+                case RIGHT:
+                    rightPlayerInfo.add("");
+                    rightPlayerInfo.add(slagen);
+                    break;
+                case BOTTOM:
+                    bottomPlayerInfo.add("");
+                    bottomPlayerInfo.add(slagen);
+                    break;
+                default:
+                    throw new AssertionError(player.getPosition().name());
+            }
+        }
+    }
+    private void increaseScore(AbstractPlayer winner) {
+        round.increaseScoreFor(winner);
+        switch (winner.getPosition()) {
+            case LEFT:
+                increaseScore(leftPlayerInfo);
+                break;
+            case TOP:
+                increaseScore(topPlayerInfo);
+                break;
+            case RIGHT:
+                increaseScore(rightPlayerInfo);
+                break;
+            case BOTTOM:
+                increaseScore(bottomPlayerInfo);
+                break;
+            default:
+                throw new AssertionError("");
+        }
+    }
+
+    public void increaseScore(java.awt.List list) throws NumberFormatException {
+        if (list.getItemCount() == 4) {
+            String item = list.getItem(3);
+            list.remove(3);
+            Pattern pattern = Pattern.compile("[^0-9]");
+            int value = Integer.valueOf(pattern.matcher(item).replaceAll(""));
+            list.add("Score: " + String.valueOf(++value),3);
+        } else {
+            list.add("Score: 1",3);
+        }
+    }
+
+    private void startNextHand(Hand nextHand) {
+        resetMiddleCards();
+        List<RobotPlayer> robotsBeforePlayer = nextHand.getRobotsBeforePlayer();
+        robotsPickCards(robotsBeforePlayer);
+        userInputAllowed = true;
+    }
+
+    
+    
+    public void robotsPickCards(List<RobotPlayer> robots) {
+        for (RobotPlayer robot : robots) {
+            Card card;
+            do {
+                card = robot.pickCard();
+            } while (!currentHand.playCard(card, robot));
+            
+            drawCard(card, robot);
+        }
+    }
+
+    private void drawCard(Card card, AbstractPlayer player) {
+        switch (player.getPosition()) {
+            case LEFT:
+                leftCard.setIcon(card.getImage());
+                break;
+            case TOP:
+                topCard.setIcon(card.getImage());
+                break;
+            case RIGHT:
+                rightCard.setIcon(card.getImage());
+                break;
+            case BOTTOM:
+                bottomCard.setIcon(card.getImage());
+                break;
+            default:
+                throw new AssertionError(player.getPosition().name());
+        }
+    }
+
+    private JButton getNthElement(Set<JButton> buttons, int n) {
+        int counter = 0;
+        for (JButton button : buttons) {
+            if (n == counter) {
+                return button;
+            }
+            counter++;
+        }
+        return null;
+    }
+
+    private void realPlayerPicksCard(JButton cardButton) {
+        if (userInputAllowed) {
+            Card card = cardButtons.get(cardButton);
+            if (card != null) {
+                if (currentHand.playCard(card, game.getRealPlayer())) {
+                    drawCard(card, game.getRealPlayer());
+                    moveCardsToTheLeft(cardButton);
+                    userInputAllowed = false;
+                    final List<RobotPlayer> robotsAfterPlayer = currentHand.getRobotsAfterPlayer();
+                    robotsPickCards(robotsAfterPlayer);
+                    AbstractPlayer winningPlayer = currentHand.getWinningPlayer();
+                    increaseScore(winningPlayer);
+                    if (round.hasNextHand()) {
+                        currentHand = round.getNextHand();
+                        currentHand.setFirstPlayer(winningPlayer);
+                        startNextHand(currentHand);
+                    } else {
+                        this.dispose();
+                        handOutBonusesForGuessingRight();
+                        createEndRondeScreen();
+                    }
+                } else {
+                    Card firstCard = currentHand.getFirstCard();
+                    JOptionPane.showMessageDialog(this, card.getHumanReadableString() + " mag niet gespeeld worden omdat je nog " + firstCard.getSuit().getNlNaam().toLowerCase() + " hebt");
+                }
+            }    
+        }
+    }
+
+    public void createEndRondeScreen() {
+        EndRondeScreen endRondeScreen = new EndRondeScreen(round.getScores(), round);
+        endRondeScreen.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        endRondeScreen.setVisible(true);
+    }
+
+    private void moveCardsToTheLeft(JButton pressedButton) {
+        pressedButton.setIcon(null);
+        cardButtons.put(pressedButton, null);
+    }
+    
+    
+    public static <K, V> LinkedHashMap<K, V> reverse(LinkedHashMap<K, V> map) {
+        LinkedHashMap<K, V> reversedMap = new LinkedHashMap<K, V>();
+
+        ListIterator<Entry<K, V>> it = new ArrayList<>(map.entrySet()).listIterator(map.entrySet().size());
+
+        while (it.hasPrevious())
+        {
+            Entry<K, V> el = it.previous();
+            reversedMap.put(el.getKey(), el.getValue());
+        }
+
+        return reversedMap;
+    }
+
+    private void resetMiddleCards() {
+        if (leftCard.getIcon() != null) {
+            leftCard.setIcon(null);
+            rightCard.setIcon(null);
+            bottomCard.setIcon(null);
+            topCard.setIcon(null);
+        }
+    }
+
+    private void handOutBonusesForGuessingRight() {
+        for (AbstractPlayer player : game.getPlayers()) {
+            int predictedSlagen = round.getSlagenFor(player);
+            int actualSlagen = round.getScoreFor(player);
+            if (predictedSlagen == actualSlagen) {
+                player.increaseScore(10);
+            }
+        }
     }
 }

@@ -4,19 +4,20 @@
  */
 package com.mycompany.boerenbridge;
 
+import com.mycompany.boerenbridge.screens.RondeScreen;
+
 /**
  *
  * @author b.smeets
  */
 public class RealPlayer extends AbstractPlayer {
 
-    public RealPlayer(String name) {
-        super(name);
+    public RealPlayer(String name, Position position) {
+        super(name, position);
     }
 
     @Override
     public boolean isRobotPlayer() {
         return false;
     }
-    
 }

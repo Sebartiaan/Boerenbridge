@@ -11,12 +11,15 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.util.function.Predicate;
+import javax.swing.JFrame;
 
 /**
  *
  * @author b.smeets
  */
 public class Game {
+    
+    public static final int NUMBER_OF_PLAYERS = 4;
     
     Deque<Round> rounds = new ArrayDeque<>();
     
@@ -38,8 +41,7 @@ public class Game {
         int firstPlayerCounter = 0;
         boolean reached2 = false;
         for (int i = 0 ; i<23 ; i++) {
-            final Round round = new Round(numberOfCardsCounter, i+1);
-            round.setFirstPlayer(getPlayers().get(firstPlayerCounter));
+            final Round round = new Round(numberOfCardsCounter, i+1, getPlayers().get(firstPlayerCounter));
             rounds.add(round);
 
             firstPlayerCounter++;
@@ -63,7 +65,9 @@ public class Game {
         }
         createRobotPlayers();
         createRounds();
-        new StartRondeScreen(this).setVisible(true);
+        final StartRondeScreen startRondeScreen = new StartRondeScreen();
+        startRondeScreen.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        startRondeScreen.setVisible(true);
     }
     
     public RealPlayer getRealPlayer(){
@@ -90,14 +94,22 @@ public class Game {
         }
         return this.players.get(indexOfPlayer);
     }
+    
+    public AbstractPlayer getPlayerBefore(AbstractPlayer player) {
+        int indexOfPlayer = this.players.indexOf(player);
+        if (--indexOfPlayer < 0) {
+            return this.players.get(this.players.size()-1);
+        }
+        return this.players.get(indexOfPlayer);
+    }
 
     private void createRobotPlayers() {
-        for (int i = 0 ; i<3 ; i++) {
-            players.add(new RobotPlayer("Robot " + i+1));
+        for (int i = 1 ; i<4 ; i++) {
+            players.add(new RobotPlayer("Robot " + i, Position.values()[i-1]));
         }
     }
 
     public void createPlayer(String playerName) {
-        players.add(new RealPlayer(playerName));
+        players.add(new RealPlayer(playerName, Position.BOTTOM));
     }
 }

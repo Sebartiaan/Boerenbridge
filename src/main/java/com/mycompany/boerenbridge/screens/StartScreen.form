@@ -25,37 +25,34 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel1" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="playButton" min="-2" pref="229" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="497" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
+              <Component id="jLabel1" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
           </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="373" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace pref="293" max="32767" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-              <Component id="nameEntryField" min="-2" pref="384" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="293" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="playButton" min="-2" pref="229" max="-2" attributes="0"/>
+                  <Component id="nameEntryField" min="-2" pref="384" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="293" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <EmptySpace pref="124" max="32767" attributes="0"/>
               <Component id="jLabel1" min="-2" pref="228" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="nameEntryField" alignment="3" min="-2" pref="77" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="148" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
               <Component id="playButton" min="-2" pref="122" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
+              <EmptySpace pref="151" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

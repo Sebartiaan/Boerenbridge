@@ -23,37 +23,34 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="1" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace pref="404" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="numberOfCardsLabel" min="-2" pref="593" max="-2" attributes="0"/>
                   <Component id="roundLabel" min="-2" pref="593" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="477" max="-2" attributes="0"/>
-                          <Component id="beginButton" min="-2" pref="260" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="311" max="-2" attributes="0"/>
-                          <Component id="welcomeLabel" min="-2" pref="593" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <Component id="welcomeLabel" min="-2" pref="593" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="619" max="32767" attributes="0"/>
+              <EmptySpace pref="422" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="beginButton" min="-2" pref="260" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
               <Component id="welcomeLabel" min="-2" pref="124" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Component id="roundLabel" min="-2" pref="124" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="numberOfCardsLabel" min="-2" pref="130" max="-2" attributes="0"/>
-              <EmptySpace pref="119" max="32767" attributes="0"/>
+              <EmptySpace pref="124" max="32767" attributes="0"/>
               <Component id="beginButton" min="-2" pref="92" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+              <EmptySpace pref="46" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

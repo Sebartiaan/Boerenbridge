@@ -23,19 +23,19 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-              <Component id="jPanel1" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="157" max="32767" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="159" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+              <EmptySpace pref="100" max="32767" attributes="0"/>
               <Component id="jPanel1" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+              <EmptySpace pref="89" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -47,42 +47,57 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="432" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="649" max="-2" attributes="0"/>
+                          <Component id="notAllowedSlagenLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Component id="playedCard1" min="-2" pref="73" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="playedCard2" min="-2" pref="73" max="-2" attributes="0"/>
-                                      <Component id="playedCardRealPlayer" min="-2" pref="73" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="playedCard3" min="-2" pref="73" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="topCard" min="-2" pref="73" max="-2" attributes="0"/>
+                              <Component id="bottomCard" min="-2" pref="73" max="-2" attributes="0"/>
+                              <Component id="topPlayerInfo" alignment="0" min="-2" pref="63" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                          <Component id="card1" min="-2" pref="73" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="card2" min="-2" pref="73" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="card3" min="-2" pref="73" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="card4" min="-2" pref="73" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="card5" min="-2" pref="73" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <EmptySpace min="0" pref="5" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" attributes="0">
+                                  <Component id="leftPlayerInfo" min="-2" pref="63" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="leftCard" min="-2" pref="73" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                                  <Component id="rightCard" min="-2" pref="73" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="card1" min="-2" pref="73" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="card2" min="-2" pref="73" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="card3" min="-2" pref="73" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="card4" min="-2" pref="73" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="card5" min="-2" pref="73" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="card6" min="-2" pref="73" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="card7" min="-2" pref="73" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="card8" min="-2" pref="73" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="bottomPlayerInfo" min="-2" pref="63" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="card7" min="-2" pref="73" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="card8" min="-2" pref="73" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="card9" min="-2" pref="73" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -94,45 +109,45 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="card13" min="-2" pref="73" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                                  <Component id="jSpinner1" min="-2" pref="49" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace pref="337" max="32767" attributes="0"/>
+                                  <Component id="rightPlayerInfo" min="-2" pref="63" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="75" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace pref="204" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="topPlayerInfo" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="78" max="32767" attributes="0"/>
+                  <Component id="topCard" min="-2" pref="97" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                          <Component id="rightCard" min="-2" pref="97" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="playedCard3" alignment="0" min="-2" pref="97" max="-2" attributes="0"/>
-                              <Component id="playedCard1" alignment="0" min="-2" pref="97" max="-2" attributes="0"/>
+                              <Component id="leftCard" alignment="1" min="-2" pref="97" max="-2" attributes="0"/>
+                              <Component id="leftPlayerInfo" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="rightPlayerInfo" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="123" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="playedCard2" min="-2" pref="97" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="playedCardRealPlayer" min="-2" pref="97" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jSpinner1" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="bottomCard" min="-2" pref="97" max="-2" attributes="0"/>
+                  <EmptySpace pref="48" max="32767" attributes="0"/>
+                  <Component id="notAllowedSlagenLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="24" max="32767" attributes="0"/>
+                  <Component id="bottomPlayerInfo" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="card13" min="-2" pref="97" max="-2" attributes="0"/>
                       <Component id="card12" min="-2" pref="97" max="-2" attributes="0"/>
@@ -158,104 +173,138 @@
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card1ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="card2">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card2ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="card3">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card3ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="card4">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card4ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="card5">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card5ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="card6">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card6ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="card7">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card7ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="card8">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card8ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="card9">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card9ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="card10">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card10ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="card11">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card11ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="card12">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card12ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="card13">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="card13ActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="playedCardRealPlayer">
+        <Component class="javax.swing.JLabel" name="notAllowedSlagenLabel">
+        </Component>
+        <Component class="javax.swing.JButton" name="topCard">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="playedCard1">
-          <Properties>
-            <Property name="iconTextGap" type="int" value="0"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="playedCard2">
+        <Component class="javax.swing.JButton" name="rightCard">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="playedCard2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rightCardActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="playedCard3">
+        <Component class="javax.swing.JButton" name="leftCard">
           <Properties>
             <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JButton" name="bottomCard">
           <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="18" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Hoeveel slagen denk je te halen?"/>
+            <Property name="iconTextGap" type="int" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JSpinner" name="jSpinner1">
+        <Component class="java.awt.List" name="topPlayerInfo">
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Ok"/>
-          </Properties>
+        <Component class="java.awt.List" name="leftPlayerInfo">
+        </Component>
+        <Component class="java.awt.List" name="bottomPlayerInfo">
+        </Component>
+        <Component class="java.awt.List" name="rightPlayerInfo">
         </Component>
       </SubComponents>
     </Container>

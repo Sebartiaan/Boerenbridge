@@ -6,6 +6,7 @@ package com.mycompany.boerenbridge;
 
 import com.mycompany.boerenbridge.screens.RondeScreen;
 import com.mycompany.boerenbridge.screens.StartScreen;
+import javax.swing.JFrame;
 
 /**
  *
@@ -17,8 +18,9 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new StartScreen().setVisible(true);
-//        new RondeScreen().setVisible(true);
+        final StartScreen startScreen = new StartScreen();
+        startScreen.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        startScreen.setVisible(true);
     }
     
 }

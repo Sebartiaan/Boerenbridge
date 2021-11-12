@@ -4,6 +4,7 @@
  */
 package com.mycompany.boerenbridge;
 
+import com.mycompany.boerenbridge.screens.RondeScreen;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,35 +14,42 @@ import java.util.List;
  * @author b.smeets
  */
 public abstract class AbstractPlayer {
-    
-    private List<Card> currentCards = new ArrayList<>();
+
+    private List<Card> cards = new ArrayList<>();
     private final String name;
-    
-    public AbstractPlayer(String name) {
+    private final Position position;
+    private int score;
+
+    public AbstractPlayer(String name, Position position) {
         this.name = name;
+        this.position = position;
     }
 
-    public List<Card> getCurrentCards() {
-        return currentCards;
+    public List<Card> getCards() {
+        return cards;
     }
 
-    public void setCurrentCards(List<Card> currentCards) {
-        this.currentCards = currentCards;
-        Collections.sort(this.currentCards);
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
+        Collections.sort(this.cards);
     }
     
     public void addCard(Card card) {
-        this.currentCards.add(card);
+        this.cards.add(card);
     }
     
     public void clearCards() {
-        this.currentCards.clear();
+        this.cards.clear();
     }
     
     public void removeCard(Card card) {
-        if (!this.currentCards.remove(card)) {
+        if (!this.cards.remove(card)) {
             throw new IllegalArgumentException("Something went wrong, card " + card + " does not belong to player " + getName());
         }
+    }
+    
+     public void reset() {
+        clearCards();
     }
     
     public abstract boolean isRobotPlayer();
@@ -50,6 +58,20 @@ public abstract class AbstractPlayer {
         return this.name;
     }
     
+    public Position getPosition(){
+        return this.position;
+    }
+
+    @Override
+    public String toString() {
+        return "AbstractPlayer{" + "name=" + name + ", position=" + position + '}';
+    }
     
-    
+    public int getScore() {
+        return score;
+    }
+
+    public void increaseScore(int increaseBy) {
+        this.score = this.score + increaseBy;
+    }
 }
