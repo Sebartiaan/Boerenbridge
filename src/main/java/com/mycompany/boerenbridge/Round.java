@@ -5,9 +5,9 @@
 package com.mycompany.boerenbridge;
 
 import com.mycompany.boerenbridge.screens.RondeScreen;
+import com.mycompany.boerenbridge.screens.RoundScreen;
 import com.mycompany.boerenbridge.screens.StartRondeScreen;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +28,7 @@ public class Round {
     private final AbstractPlayer lastPlayer;
     private final Map<AbstractPlayer, Integer> playersWithSlagen = new LinkedHashMap<>();
     private final Map<AbstractPlayer, Integer> playersScore = new LinkedHashMap<>();
-    private RondeScreen rondeScreen;
+    private RoundScreen rondeScreen;
     private Suit troef;
     private Hand currentHand;
     private int handCounter = 0;
@@ -59,13 +59,13 @@ public class Round {
     }
 
     public void showRondeScreen() {
-        rondeScreen = new RondeScreen(this);
+        rondeScreen = new RoundScreen(this);
         rondeScreen.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         rondeScreen.setVisible(true);
         rondeScreen.startRonde();
     }
     
-    public RondeScreen getRondeScreen(){
+    public RoundScreen getRondeScreen(){
         return this.rondeScreen;
     }
     

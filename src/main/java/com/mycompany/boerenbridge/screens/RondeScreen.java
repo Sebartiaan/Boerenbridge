@@ -28,7 +28,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
-import javax.swing.border.LineBorder;
 
 /**
  *
@@ -51,6 +50,7 @@ public class RondeScreen extends javax.swing.JFrame {
         this.round = round;
         this.game = Game.getSingleton();
         initComponents();
+        setTitle("Ronde " + round.getRoundNumber() + ". Aantal kaarten: " + round.getNumberOfCards());
     }
 
     public void startRonde() {
@@ -68,7 +68,10 @@ public class RondeScreen extends javax.swing.JFrame {
         doRobotSlagenGuesses(round.getRobotsBeforePlayer());
         doRealPlayerSlagenGuess();
         
-        fillSlagen();
+        addPlayerInfo();
+        
+        String currentTitle = getTitle();
+        setTitle(currentTitle + ". " + round.getTroef().getNlNaam() + " is troef");
         
         currentHand = round.getNextHand();
         currentHand.setFirstPlayer(round.getFirstPlayer());
@@ -498,7 +501,7 @@ public class RondeScreen extends javax.swing.JFrame {
         }
     }
     
-    private void fillSlagen() {
+    private void addPlayerInfo() {
         for (AbstractPlayer player : game.getPlayers()) {
             final String slagen = "Gegokt: " + String.valueOf(round.getSlagenFor(player));
             switch (player.getPosition()) {
@@ -524,24 +527,33 @@ public class RondeScreen extends javax.swing.JFrame {
         }
     }
     private void increaseScore(AbstractPlayer winner) {
+        leftPlayerInfo.setBackground(Color.WHITE);
+        topPlayerInfo.setBackground(Color.WHITE);
+        rightPlayerInfo.setBackground(Color.WHITE);
+        bottomPlayerInfo.setBackground(Color.WHITE);
         round.increaseScoreFor(winner);
         switch (winner.getPosition()) {
             case LEFT:
                 increaseScore(leftPlayerInfo);
+                leftPlayerInfo.setBackground(Color.green);
                 break;
             case TOP:
                 increaseScore(topPlayerInfo);
+                topPlayerInfo.setBackground(Color.green);
                 break;
             case RIGHT:
                 increaseScore(rightPlayerInfo);
+                rightPlayerInfo.setBackground(Color.green);
                 break;
             case BOTTOM:
                 increaseScore(bottomPlayerInfo);
+                bottomPlayerInfo.setBackground(Color.green);
                 break;
             default:
                 throw new AssertionError("");
         }
     }
+    
 
     public void increaseScore(java.awt.List list) throws NumberFormatException {
         if (list.getItemCount() == 4) {
