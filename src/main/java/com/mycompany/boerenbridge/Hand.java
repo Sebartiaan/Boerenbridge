@@ -59,6 +59,10 @@ public class Hand {
         return false;
     }
     
+    public int getNumberOfPlayedCards(){
+        return this.playedCards.size();
+    }
+    
     private boolean isLegal(Card card, AbstractPlayer player) {
         if (this.firstCard == null) {
             return true;

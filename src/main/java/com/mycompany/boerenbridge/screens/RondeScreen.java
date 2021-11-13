@@ -12,6 +12,7 @@ import com.mycompany.boerenbridge.Hand;
 import com.mycompany.boerenbridge.RealPlayer;
 import com.mycompany.boerenbridge.RobotPlayer;
 import com.mycompany.boerenbridge.Round;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -21,11 +22,13 @@ import java.util.ListIterator;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -39,6 +42,7 @@ public class RondeScreen extends javax.swing.JFrame {
     private boolean userInputAllowed = false;
     private Hand currentHand;
     private Timer t;
+    private Timer t2;
 
     /**
      * Creates new form RondeScreen
@@ -600,18 +604,28 @@ public class RondeScreen extends javax.swing.JFrame {
         switch (player.getPosition()) {
             case LEFT:
                 leftCard.setIcon(card.getImage());
+                createFirstCardBorder(leftCard);
                 break;
             case TOP:
                 topCard.setIcon(card.getImage());
+                createFirstCardBorder(topCard);
                 break;
             case RIGHT:
                 rightCard.setIcon(card.getImage());
+                createFirstCardBorder(rightCard);
                 break;
             case BOTTOM:
                 bottomCard.setIcon(card.getImage());
+                createFirstCardBorder(bottomCard);
                 break;
             default:
                 throw new AssertionError(player.getPosition().name());
+        }
+    }
+
+    public void createFirstCardBorder(JButton cardButton) {
+        if (currentHand.getNumberOfPlayedCards() == 1){
+            cardButton.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
         }
     }
 
@@ -644,17 +658,27 @@ public class RondeScreen extends javax.swing.JFrame {
     }
 
     public void handleWinningPlayer() {
-        AbstractPlayer winningPlayer = currentHand.getWinningPlayer();
-        increaseScore(winningPlayer);
-        if (round.hasNextHand()) {
-            currentHand = round.getNextHand();
-            currentHand.setFirstPlayer(winningPlayer);
-            startNextHand(currentHand);
-        } else {
-            this.dispose();
-            handOutBonusesForGuessingRight();
-            createEndRondeScreen();
-        }
+        userInputAllowed = false;
+        t2 = new Timer(2000,null);
+        t2.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                AbstractPlayer winningPlayer = currentHand.getWinningPlayer();
+                increaseScore(winningPlayer);
+                if (round.hasNextHand()) {
+                    currentHand = round.getNextHand();
+                    currentHand.setFirstPlayer(winningPlayer);
+                    userInputAllowed = true;
+                    startNextHand(currentHand);
+                } else {
+                    RondeScreen.this.dispose();
+                    handOutBonusesForGuessingRight();
+                    createEndRondeScreen();
+                }
+            }
+        });
+         t2.setRepeats(false);
+         t2.start();
     }
 
     public void createEndRondeScreen() {
@@ -686,9 +710,13 @@ public class RondeScreen extends javax.swing.JFrame {
     private void resetMiddleCards() {
         if (leftCard.getIcon() != null) {
             leftCard.setIcon(null);
+            leftCard.setBorder(null);
             rightCard.setIcon(null);
+            rightCard.setBorder(null);
             bottomCard.setIcon(null);
+            bottomCard.setBorder(null);
             topCard.setIcon(null);
+            topCard.setBorder(null);
         }
     }
 
