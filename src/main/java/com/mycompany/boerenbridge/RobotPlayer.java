@@ -51,7 +51,7 @@ public class RobotPlayer extends AbstractPlayer {
     
     public Suit maakTroef(){
         //Kiest de meest voorkomende kleur als troef
-        return Stream.of(getCards()).map(Card::getSuit).toMultiset().maxOccurrences().get().getKey();
+        return Suit.DIAMONDS;
     }
 
     //TODO make smarter

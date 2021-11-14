@@ -6,6 +6,7 @@ package com.mycompany.boerenbridge;
 
 import java.util.Optional;
 import java.util.stream.Stream;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -44,5 +45,9 @@ public enum Suit {
     @Override
     public String toString() {
             return nlNaam;
+    }
+    
+    public ImageIcon getImage(){
+        return new ImageIcon(getClass().getResource("/" + getId() + ".png"));
     }
 }

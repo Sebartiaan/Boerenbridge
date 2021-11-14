@@ -4,7 +4,6 @@
  */
 package com.mycompany.boerenbridge;
 
-import com.mycompany.boerenbridge.screens.RondeScreen;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

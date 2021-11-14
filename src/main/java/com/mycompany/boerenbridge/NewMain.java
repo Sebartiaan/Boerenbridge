@@ -4,7 +4,6 @@
  */
 package com.mycompany.boerenbridge;
 
-import com.mycompany.boerenbridge.screens.RondeScreen;
 import com.mycompany.boerenbridge.screens.StartScreen;
 import javax.swing.JFrame;
 

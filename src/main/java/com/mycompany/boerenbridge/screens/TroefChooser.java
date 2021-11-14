@@ -14,14 +14,14 @@ import javax.swing.JOptionPane;
  *
  * @author b.smeets
  */
-public class TroefDialog extends javax.swing.JDialog {
+public class TroefChooser extends javax.swing.JDialog {
 
     private final Round round;
 
     /**
      * Creates new form TroefDialog
      */
-    public TroefDialog(Round round, java.awt.Frame parent, boolean modal) {
+    public TroefChooser(Round round, java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         setTitle("Troef maken");
         this.round = round;

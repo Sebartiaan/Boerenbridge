@@ -15,12 +15,17 @@ import com.mycompany.boerenbridge.Round;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -49,7 +54,13 @@ public class RoundScreen extends javax.swing.JFrame {
         this.round = round;
         this.game = Game.getSingleton();
         initComponents();
+        initTroefViewer();
         setTitle("Ronde " + round.getRoundNumber() + ". Aantal kaarten: " + round.getNumberOfCards());
+    }
+    
+    private void initTroefViewer() {
+        troefViewer.setEnabled(false);
+        troefViewer.setBorder(BorderFactory.createEmptyBorder());
     }
     
     public void startRonde() {
@@ -64,17 +75,24 @@ public class RoundScreen extends javax.swing.JFrame {
         final List<Card> cardsOfPlayer = realPlayer.getCards();
         paintCards(cardsOfPlayer);
         
-        doRobotSlagenGuesses(round.getRobotsBeforePlayer());
-        doRealPlayerSlagenGuess();
-        
-        addPlayerInfo();
+        determineTroef();
         
         String currentTitle = getTitle();
         setTitle(currentTitle + ". " + round.getTroef().getNlNaam() + " is troef");
+        setTroefIcon();
         
         currentHand = round.getNextHand();
         currentHand.setFirstPlayer(round.getFirstPlayer());
         startNextHand(currentHand);
+    }
+
+    public void determineTroef() {
+        doRobotSlagenGuesses(round.getRobotsBeforePlayer());
+        doRealPlayerSlagenGuess();
+    }
+    
+     private void setTroefIcon() {
+        troefViewer.setIcon(round.getTroef().getImage());
     }
 
     public void doRealPlayerSlagenGuess() {
@@ -110,14 +128,6 @@ public class RoundScreen extends javax.swing.JFrame {
         }
     }
 
-
-    public void doRemainingRobotGuesses() {
-        for (RobotPlayer robot : round.getRobotsAfterPlayer()) {
-            final int guess = robot.guessSlagen(round);
-            round.setSlagenFor(robot, guess);
-        }
-    }
-    
     public void doRobotSlagenGuesses(List<RobotPlayer> robots ){
         for (RobotPlayer robot : robots) {
             final int guess = robot.guessSlagen(round);
@@ -125,8 +135,8 @@ public class RoundScreen extends javax.swing.JFrame {
         }
     }
 
-    public void createTroefScreen() {
-        final TroefDialog troefDialog = new TroefDialog(this.round, this, true);
+    public void createTroefChooser() {
+        final TroefChooser troefDialog = new TroefChooser(this.round, this, true);
         troefDialog.setLocationRelativeTo(this);
         troefDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         troefDialog.setVisible(true);
@@ -153,29 +163,27 @@ public class RoundScreen extends javax.swing.JFrame {
         }
     }
     
-    private void addPlayerInfo() {
-        for (AbstractPlayer player : game.getPlayers()) {
-            final String slagen = "Gegokt: " + String.valueOf(round.getSlagenFor(player));
-            switch (player.getPosition()) {
-                case LEFT:
-                    leftPlayerInfo.add("");
-                    leftPlayerInfo.add(slagen);
-                    break;
-                case TOP:
-                    topPlayerInfo.add("");
-                    topPlayerInfo.add(slagen);
-                    break;
-                case RIGHT:
-                    rightPlayerInfo.add("");
-                    rightPlayerInfo.add(slagen);
-                    break;
-                case BOTTOM:
-                    bottomPlayerInfo.add("");
-                    bottomPlayerInfo.add(slagen);
-                    break;
-                default:
-                    throw new AssertionError(player.getPosition().name());
-            }
+    public void addPlayerInfo(AbstractPlayer player) {
+        final String slagen = "Gegokt: " + String.valueOf(round.getSlagenFor(player));
+        switch (player.getPosition()) {
+            case LEFT:
+                leftPlayerInfo.add("");
+                leftPlayerInfo.add(slagen);
+                break;
+            case TOP:
+                topPlayerInfo.add("");
+                topPlayerInfo.add(slagen);
+                break;
+            case RIGHT:
+                rightPlayerInfo.add("");
+                rightPlayerInfo.add(slagen);
+                break;
+            case BOTTOM:
+                bottomPlayerInfo.add("");
+                bottomPlayerInfo.add(slagen);
+                break;
+            default:
+                throw new AssertionError(player.getPosition().name());
         }
     }
     private void increaseScore(AbstractPlayer winner) {
@@ -240,7 +248,6 @@ public class RoundScreen extends javax.swing.JFrame {
                         robot = robots.get(i);
                         card = robot.pickCard();
                     } while (!currentHand.playCard(card, robot));
-
                     drawCard(card, robot);
 
                     if(robots.size() == i+1){
@@ -426,6 +433,7 @@ public class RoundScreen extends javax.swing.JFrame {
         leftPlayerInfo = new java.awt.List();
         bottomPlayerInfo = new java.awt.List();
         rightPlayerInfo = new java.awt.List();
+        troefViewer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -637,6 +645,8 @@ public class RoundScreen extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
+        troefViewer.setContentAreaFilled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -645,11 +655,15 @@ public class RoundScreen extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(troefViewer, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(troefViewer, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -751,5 +765,6 @@ public class RoundScreen extends javax.swing.JFrame {
     private java.awt.List rightPlayerInfo;
     private javax.swing.JButton topCard;
     private java.awt.List topPlayerInfo;
+    private javax.swing.JButton troefViewer;
     // End of variables declaration//GEN-END:variables
 }

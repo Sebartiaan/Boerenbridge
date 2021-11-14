@@ -100,6 +100,7 @@ public class AantalSlagenDialog extends javax.swing.JDialog {
             } else {
                 this.dispose();
                 round.setSlagenFor(game.getRealPlayer(), guess);
+                round.getRondeScreen().doRobotSlagenGuesses(round.getRobotsAfterPlayer());
             }
         } else {
             this.dispose();

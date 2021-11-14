@@ -4,15 +4,19 @@
  */
 package com.mycompany.boerenbridge;
 
-import com.mycompany.boerenbridge.screens.RondeScreen;
 import com.mycompany.boerenbridge.screens.RoundScreen;
 import com.mycompany.boerenbridge.screens.StartRondeScreen;
+import com.mycompany.boerenbridge.screens.TroefChooser;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -117,6 +121,7 @@ public class Round {
     
     public void setSlagenFor(AbstractPlayer player, int numberOfSlagen) {
         this.playersWithSlagen.put(player, numberOfSlagen);
+        this.rondeScreen.addPlayerInfo(player);
         if (this.playersWithSlagen.values().stream().noneMatch(Objects::isNull)) {
             determineTroef();
         }
@@ -136,18 +141,24 @@ public class Round {
 
     //TODO
     private void determineTroef() {
-        List<AbstractPlayer> troefCompeters = getTroefCompeters();
-        AbstractPlayer troefMaker = determineTroefMaker(troefCompeters);
-        if (troefMaker instanceof RobotPlayer robot) {
-            setTroef(robot.maakTroef());
+        Optional<Integer> optional = playersWithSlagen.values().stream().max(Integer::compare);
+        if (optional.isPresent()) {
+            int mostGuesses = optional.get();
+            List<AbstractPlayer> troefCompeters =  playersWithSlagen.entrySet().stream().filter(entry -> entry.getValue() == mostGuesses).map(Entry::getKey).collect(Collectors.toList());
+            AbstractPlayer troefMaker = determineTroefMaker(troefCompeters, mostGuesses);
+            if (troefMaker instanceof RobotPlayer robot) {
+                final Suit robotTroef = robot.maakTroef();
+                setTroef(robotTroef);
+                JOptionPane.showMessageDialog(rondeScreen, robot.getName() + " maakt " + robotTroef.getNlNaam().toLowerCase() + " troef!");
+            } else {
+                rondeScreen.createTroefChooser();
+            }
+           
         } else {
-            setTroef(Suit.CLUBS);
+            throw new IllegalStateException("Something went wrong while determining troef");
         }
     }
 
-    private List<AbstractPlayer> getTroefCompeters() {
-        return null;
-    }
     
     public void increaseScoreFor(AbstractPlayer winner) {
         if (playersScore.isEmpty()) {
@@ -174,14 +185,30 @@ public class Round {
         return this.playersWithSlagen;
     }
 
-    private AbstractPlayer determineTroefMaker(List<AbstractPlayer> troefCompeters) {
-        return Game.getSingleton().getRealPlayer();
+    private AbstractPlayer determineTroefMaker(List<AbstractPlayer> troefCompeters, int mostGuesses) {
+        if (troefCompeters.size() == 1) {
+            return troefCompeters.get(0);
+        } else {
+            Random random = new Random();
+            int randomPlayerIndex = random.nextInt(0, troefCompeters.size());
+            AbstractPlayer troefMaker = troefCompeters.get(randomPlayerIndex);
+            StringBuilder message = new StringBuilder();
+            message.append("De volgende spelers hebben ");
+            message.append(mostGuesses);
+            message.append(" slagen geraden:\n");
+            String competerNames = troefCompeters.stream().map(AbstractPlayer::getName).collect(Collectors.joining(", "));
+            message.append(competerNames);
+            message.append("\nNa loting is bepaald dat ");
+            message.append(troefMaker.getName());
+            message.append(" troef mag maken");
+            JOptionPane.showMessageDialog(rondeScreen, message.toString());
+            return troefMaker;
+        }
     }
 
     public void setTroef(Suit troef) {
         if (this.troef == null) {
             this.troef = troef;
-            JOptionPane.showMessageDialog(rondeScreen, troef.getNlNaam() + " is troef!");
         }
     }
     

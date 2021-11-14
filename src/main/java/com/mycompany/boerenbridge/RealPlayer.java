@@ -4,8 +4,6 @@
  */
 package com.mycompany.boerenbridge;
 
-import com.mycompany.boerenbridge.screens.RondeScreen;
-
 /**
  *
  * @author b.smeets
