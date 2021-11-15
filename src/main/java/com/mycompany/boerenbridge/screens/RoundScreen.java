@@ -13,15 +13,19 @@ import com.mycompany.boerenbridge.RealPlayer;
 import com.mycompany.boerenbridge.RobotPlayer;
 import com.mycompany.boerenbridge.Round;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -54,9 +58,14 @@ public class RoundScreen extends javax.swing.JFrame {
         initPauserButton();
         initTroefViewer();
         setTitle("Ronde " + round.getRoundNumber() + ". Aantal kaarten: " + round.getNumberOfCards());
+        setBackGroundColor();
     }
 
-    public void initPauserButton() {
+    public void setBackGroundColor() {
+        Container contentPane = getContentPane();
+        contentPane.setBackground(Color.white);
+    }
+    private void initPauserButton() {
         pauser.setText("Pauzeer");
         pauser.setPreferredSize(new Dimension(81, 60));
         pauser.setEnabled(false);
@@ -335,7 +344,6 @@ public class RoundScreen extends javax.swing.JFrame {
     public void handleWinningPlayer() {
         final HandleWinningPlayerPauser handleWinningPlayerPauser = new HandleWinningPlayerPauser();
         pauser.addActionListener(handleWinningPlayerPauser);
-        pauser.addKeyListener(l);
         pauser.setEnabled(true);
         userInputAllowed = false;
         t2 = new Timer(2000, handleWinningPlayerPauser);
@@ -428,6 +436,10 @@ public class RoundScreen extends javax.swing.JFrame {
         troefViewer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+        setForeground(java.awt.Color.white);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         card1.setIconTextGap(0);
         card1.addActionListener(new java.awt.event.ActionListener() {
@@ -537,6 +549,13 @@ public class RoundScreen extends javax.swing.JFrame {
         pauser.setMaximumSize(new java.awt.Dimension(80, 23));
         pauser.setMinimumSize(new java.awt.Dimension(80, 23));
 
+        try {
+            jPanel1 = new JPanelWithBackground("C:\\Users\\b.smeets\\Documents\\NetBeansProjects\\Boerenbridge\\src\\main\\resources\\sjopper.png");
+            jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        } catch (IOException ex) {
+            Logger.getLogger(RoundScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -611,23 +630,24 @@ public class RoundScreen extends javax.swing.JFrame {
                 .addComponent(topCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(14, 14, 14)
-                            .addComponent(rightCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(leftCard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(leftPlayerInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(rightPlayerInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(leftCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(leftPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(14, 14, 14)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(rightPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(rightCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(pauser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bottomCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(notAllowedSlagenLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(81, 81, 81)
                 .addComponent(bottomPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -788,6 +808,7 @@ public class RoundScreen extends javax.swing.JFrame {
                 }
             }
             if (!paused && !hasExecuted) {
+                pauser.setEnabled(false);
                 hasExecuted = true;
                 userInputAllowed = false;
                 AbstractPlayer winningPlayer = currentHand.getWinningPlayer();
