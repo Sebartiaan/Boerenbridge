@@ -75,7 +75,9 @@
                                   <Component id="leftPlayerInfo" min="-2" pref="63" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="leftCard" min="-2" pref="73" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                                  <Component id="pauser" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="rightCard" min="-2" pref="73" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
@@ -115,9 +117,7 @@
                                   <Component id="card13" min="-2" pref="73" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace pref="145" max="32767" attributes="0"/>
-                                  <Component id="pauser" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
+                                  <EmptySpace pref="337" max="32767" attributes="0"/>
                                   <Component id="rightPlayerInfo" min="-2" pref="63" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -135,29 +135,26 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="topCard" min="-2" pref="97" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                                  <Component id="rightCard" min="-2" pref="97" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="leftCard" alignment="1" min="-2" pref="97" max="-2" attributes="0"/>
-                                      <Component id="leftPlayerInfo" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="rightPlayerInfo" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                              <Component id="rightCard" min="-2" pref="97" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="leftCard" alignment="1" min="-2" pref="97" max="-2" attributes="0"/>
+                                  <Component id="leftPlayerInfo" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rightPlayerInfo" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                           <Component id="pauser" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="bottomCard" min="-2" pref="97" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="notAllowedSlagenLabel" min="-2" max="-2" attributes="0"/>
@@ -325,6 +322,12 @@
         <Component class="javax.swing.JButton" name="pauser">
           <Properties>
             <Property name="text" type="java.lang.String" value="jButton1"/>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[80, 23]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[80, 23]"/>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>
