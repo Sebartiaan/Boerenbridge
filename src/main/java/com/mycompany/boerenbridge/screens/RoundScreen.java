@@ -15,17 +15,12 @@ import com.mycompany.boerenbridge.Round;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -47,6 +42,7 @@ public class RoundScreen extends javax.swing.JFrame {
     private Hand currentHand;
     private Timer t;
     private Timer t2;
+    
     /**
      * Creates new form RoundScreen
      */
@@ -54,8 +50,14 @@ public class RoundScreen extends javax.swing.JFrame {
         this.round = round;
         this.game = Game.getSingleton();
         initComponents();
+        initPauserButton();
         initTroefViewer();
         setTitle("Ronde " + round.getRoundNumber() + ". Aantal kaarten: " + round.getNumberOfCards());
+    }
+
+    public void initPauserButton() {
+        pauser.setText("Pauzeer");
+        pauser.setEnabled(false);
     }
     
     private void initTroefViewer() {
@@ -329,27 +331,13 @@ public class RoundScreen extends javax.swing.JFrame {
     }
 
     public void handleWinningPlayer() {
+        final HandleWinningPlayerPauser handleWinningPlayerPauser = new HandleWinningPlayerPauser();
+        pauser.addActionListener(handleWinningPlayerPauser);
+        pauser.setEnabled(true);
         userInputAllowed = false;
-        t2 = new Timer(2000,null);
-        t2.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                AbstractPlayer winningPlayer = currentHand.getWinningPlayer();
-                increaseScore(winningPlayer);
-                if (round.hasNextHand()) {
-                    currentHand = round.getNextHand();
-                    currentHand.setFirstPlayer(winningPlayer);
-                    userInputAllowed = true;
-                    startNextHand(currentHand);
-                } else {
-                    RoundScreen.this.dispose();
-                    handOutBonusesForGuessingRight();
-                    createEndRondeScreen();
-                }
-            }
-        });
-         t2.setRepeats(false);
-         t2.start();
+        t2 = new Timer(2000, handleWinningPlayerPauser);
+        t2.setRepeats(false);
+        t2.start();
     }
 
     public void createEndRondeScreen() {
@@ -433,6 +421,7 @@ public class RoundScreen extends javax.swing.JFrame {
         leftPlayerInfo = new java.awt.List();
         bottomPlayerInfo = new java.awt.List();
         rightPlayerInfo = new java.awt.List();
+        pauser = new javax.swing.JButton();
         troefViewer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -541,6 +530,8 @@ public class RoundScreen extends javax.swing.JFrame {
 
         bottomCard.setIconTextGap(0);
 
+        pauser.setText("jButton1");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -600,7 +591,9 @@ public class RoundScreen extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(card13, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 337, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
+                                .addComponent(pauser)
+                                .addGap(119, 119, 119)
                                 .addComponent(rightPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -613,15 +606,21 @@ public class RoundScreen extends javax.swing.JFrame {
                 .addComponent(topCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(rightCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(rightCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(leftCard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(leftPlayerInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(rightPlayerInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(leftCard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(leftPlayerInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(rightPlayerInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pauser)
+                        .addGap(33, 33, 33)))
                 .addComponent(bottomCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(notAllowedSlagenLabel)
@@ -761,10 +760,51 @@ public class RoundScreen extends javax.swing.JFrame {
     private javax.swing.JButton leftCard;
     private java.awt.List leftPlayerInfo;
     private javax.swing.JLabel notAllowedSlagenLabel;
+    private javax.swing.JButton pauser;
     private javax.swing.JButton rightCard;
     private java.awt.List rightPlayerInfo;
     private javax.swing.JButton topCard;
     private java.awt.List topPlayerInfo;
     private javax.swing.JButton troefViewer;
     // End of variables declaration//GEN-END:variables
+
+    private class HandleWinningPlayerPauser implements ActionListener {
+        private boolean paused = false;
+        private boolean hasExecuted = false;
+        
+        public void reset(){
+            paused = false;
+            hasExecuted = false;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            boolean fromPauser = ae.getSource() == pauser;
+            if (fromPauser) {
+                paused = !paused;
+                if (!paused) {
+                    pauser.setEnabled(false);
+                    pauser.setText("Pauzeer");
+                } else {
+                    pauser.setText("Verder");
+                }
+            }
+            if (!paused && !hasExecuted) {
+                hasExecuted = true;
+                userInputAllowed = false;
+                AbstractPlayer winningPlayer = currentHand.getWinningPlayer();
+                increaseScore(winningPlayer);
+                if (round.hasNextHand()) {
+                    currentHand = round.getNextHand();
+                    currentHand.setFirstPlayer(winningPlayer);
+                    userInputAllowed = true;
+                    startNextHand(currentHand);
+                } else {
+                    RoundScreen.this.dispose();
+                    handOutBonusesForGuessingRight();
+                    createEndRondeScreen();
+                }
+            }
+        }
+    }
 }
