@@ -55,6 +55,7 @@ public class RoundScreen extends javax.swing.JFrame {
         this.round = round;
         this.game = Game.getSingleton();
         initComponents();
+        resetMiddleCards();
         initPauserButton();
         initTroefViewer();
         setTitle("Ronde " + round.getRoundNumber() + ". Aantal kaarten: " + round.getNumberOfCards());
@@ -378,16 +379,25 @@ public class RoundScreen extends javax.swing.JFrame {
     }
 
     private void resetMiddleCards() {
-        if (leftCard.getIcon() != null) {
-            leftCard.setIcon(null);
-            leftCard.setBorder(null);
-            rightCard.setIcon(null);
-            rightCard.setBorder(null);
-            bottomCard.setIcon(null);
-            bottomCard.setBorder(null);
-            topCard.setIcon(null);
-            topCard.setBorder(null);
-        }
+        leftCard.setIcon(null);
+        leftCard.setBorder(null);
+        leftCard.setOpaque(false);
+        leftCard.setContentAreaFilled(false);
+        rightCard.setIcon(null);
+        rightCard.setBorder(null);
+        rightCard.setBorder(null);
+        rightCard.setOpaque(false);
+        rightCard.setContentAreaFilled(false);
+        bottomCard.setIcon(null);
+        bottomCard.setBorder(null);
+        bottomCard.setOpaque(false);
+        bottomCard.setContentAreaFilled(false);
+        bottomCard.setBorder(null);
+        topCard.setIcon(null);
+        topCard.setBorder(null);
+        topCard.setBorder(null);
+        topCard.setOpaque(false);
+        topCard.setContentAreaFilled(false);
     }
 
     private void handOutBonusesForGuessingRight() {
