@@ -24,10 +24,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -141,6 +143,7 @@ public class RoundScreen extends javax.swing.JFrame {
             cardButton.setIcon(card.getImage());
             counter++;
         }
+        centerCards();
     }
 
     public void doRobotSlagenGuesses(List<RobotPlayer> robots ){
@@ -322,6 +325,7 @@ public class RoundScreen extends javax.swing.JFrame {
                 if (currentHand.playCard(card, game.getRealPlayer())) {
                     drawCard(card, game.getRealPlayer());
                     moveCardsToTheLeft(cardButton);
+                    centerCards();
                     final List<RobotPlayer> robotsAfterPlayer = currentHand.getRobotsAfterPlayer();
                     robotsPickCards(robotsAfterPlayer);
                 } else {
@@ -830,6 +834,38 @@ public class RoundScreen extends javax.swing.JFrame {
             cardToMove = card;
         }
     }
+    
+    public void centerCards(){
+        int firstActualCard = 0;
+        
+        for (Card card : cardButtons.values()) {
+            if (card == null) {
+                firstActualCard++;
+            } else {
+                break;
+            }
+        }
+        
+        int nullCards = (int) cardButtons.values().stream().filter(Objects::isNull).count();
+        int startIndex = nullCards/2;
+        while (firstActualCard < startIndex) {
+            Card cardToMove = null;
+            for (Entry<JButton, Card> entry : cardButtons.entrySet()) {
+                JButton button = entry.getKey();
+                Card card = entry.getValue();
+                cardButtons.put(button, cardToMove);
+                if (cardToMove == null) {
+                    makeButtonInvisible(button);
+                } else {
+                    button.setIcon(cardToMove.getImage());
+                }
+                cardToMove = card;
+            }
+            firstActualCard++;
+        }
+        
+        
+    }
 
     public void makeButtonInvisible(JButton button) {
         button.setIcon(null);
@@ -837,4 +873,6 @@ public class RoundScreen extends javax.swing.JFrame {
         button.setOpaque(false);
         button.setContentAreaFilled(false);
     }
+    
+    
 }

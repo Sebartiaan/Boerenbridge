@@ -5,6 +5,7 @@ troef kiezen ¬¬¬
 icoon troef in hoek rechtsboven zetten ¬¬¬
 aangeven dat de gebruiker aan de beurt is ¬¬¬
 bij gelijke stand troef kiezen: loten ¬¬¬
+kaarten centreren ¬¬¬
 AI verbeteren
 easy/hard mode
 eindscherm maken
