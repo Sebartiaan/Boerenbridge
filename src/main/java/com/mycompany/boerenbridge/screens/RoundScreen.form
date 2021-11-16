@@ -59,7 +59,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="try {&#xa;            jPanel1 = new JPanelWithBackground(&quot;C:\\Users\\b.smeets\\Documents\\NetBeansProjects\\Boerenbridge\\src\\main\\resources\\sjopper.png&quot;);&#xa;            jPanel1.setBackground(new java.awt.Color(255, 255, 255));&#xa;} catch (IOException ex) {&#xa;            Logger.getLogger(RoundScreen.class.getName()).log(Level.SEVERE, null, ex);&#xa;        }"/>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="try {&#xa;            jPanel1 = new JPanelWithBackground(&quot;src\\main\\resources\\sjopper.png&quot;);&#xa;            jPanel1.setBackground(new java.awt.Color(255, 255, 255));&#xa;} catch (IOException ex) {&#xa;            Logger.getLogger(RoundScreen.class.getName()).log(Level.SEVERE, null, ex);&#xa;        }"/>
       </AuxValues>
 
       <Layout>

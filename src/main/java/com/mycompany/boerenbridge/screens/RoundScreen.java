@@ -538,7 +538,7 @@ public class RoundScreen extends javax.swing.JFrame {
         pauser.setMinimumSize(new java.awt.Dimension(80, 23));
 
         try {
-            jPanel1 = new JPanelWithBackground("C:\\Users\\b.smeets\\Documents\\NetBeansProjects\\Boerenbridge\\src\\main\\resources\\sjopper.png");
+            jPanel1 = new JPanelWithBackground("src\\main\\resources\\sjopper.png");
             jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         } catch (IOException ex) {
             Logger.getLogger(RoundScreen.class.getName()).log(Level.SEVERE, null, ex);
