@@ -9,5 +9,6 @@ kaarten centreren ¬¬¬
 AI verbeteren
 easy/hard mode
 eindscherm maken
-totale score toevoegen aan playerInfo
+scorescherm mooier maken
+totale score toevoegen aan playerInfo ¬¬¬
 
