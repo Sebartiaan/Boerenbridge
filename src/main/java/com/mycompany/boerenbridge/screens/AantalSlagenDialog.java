@@ -98,16 +98,18 @@ public class AantalSlagenDialog extends javax.swing.JDialog {
             if (round.getNotAllowedGuess() == guess ){
                 JOptionPane.showMessageDialog(null, "We mogen niet precies "+ round.getNumberOfCards()+ " slagen raden. \nKies een ander aantal slagen.", "Geen valide invoer", JOptionPane.ERROR_MESSAGE);
             } else {
-                this.dispose();
-                round.setSlagenFor(game.getRealPlayer(), guess);
-                round.getRondeScreen().doRobotSlagenGuesses(round.getRobotsAfterPlayer());
+                performFinish(guess);
             }
         } else {
-            this.dispose();
-            round.setSlagenFor(game.getRealPlayer(), guess);
-            round.getRondeScreen().doRobotSlagenGuesses(round.getRobotsAfterPlayer());
+            performFinish(guess);
         }
     }//GEN-LAST:event_okSlagenButtonActionPerformed
+
+    public void performFinish(final Integer guess) {
+        this.dispose();
+        round.setSlagenFor(game.getRealPlayer(), guess);
+        round.getRondeScreen().doRobotSlagenGuesses(round.getRobotsAfterPlayer());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

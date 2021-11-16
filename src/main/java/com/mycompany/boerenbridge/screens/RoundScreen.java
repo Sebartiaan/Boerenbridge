@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -159,20 +160,11 @@ public class RoundScreen extends javax.swing.JFrame {
     private void fillNames() {
         for (AbstractPlayer player : game.getPlayers()) {
             switch (player.getPosition()) {
-                case LEFT:
-                    leftPlayerInfo.add(player.getName());
-                    break;
-                case TOP:
-                    topPlayerInfo.add(player.getName());
-                    break;
-                case RIGHT:
-                    rightPlayerInfo.add(player.getName());
-                    break;
-                case BOTTOM:
-                    bottomPlayerInfo.add(player.getName());
-                    break;
-                default:
-                    throw new AssertionError(player.getPosition().name());
+                case LEFT -> leftPlayerInfo.add(player.getName());
+                case TOP -> topPlayerInfo.add(player.getName());
+                case RIGHT -> rightPlayerInfo.add(player.getName());
+                case BOTTOM -> bottomPlayerInfo.add(player.getName());
+                default -> throw new AssertionError(player.getPosition().name());
             }
         }
     }
@@ -180,24 +172,23 @@ public class RoundScreen extends javax.swing.JFrame {
     public void addPlayerInfo(AbstractPlayer player) {
         final String slagen = "Gegokt: " + String.valueOf(round.getSlagenFor(player));
         switch (player.getPosition()) {
-            case LEFT:
+            case LEFT -> {
                 leftPlayerInfo.add("");
                 leftPlayerInfo.add(slagen);
-                break;
-            case TOP:
+            }
+            case TOP -> {
                 topPlayerInfo.add("");
                 topPlayerInfo.add(slagen);
-                break;
-            case RIGHT:
+            }
+            case RIGHT -> {
                 rightPlayerInfo.add("");
                 rightPlayerInfo.add(slagen);
-                break;
-            case BOTTOM:
+            }
+            case BOTTOM -> {
                 bottomPlayerInfo.add("");
                 bottomPlayerInfo.add(slagen);
-                break;
-            default:
-                throw new AssertionError(player.getPosition().name());
+            }
+            default -> throw new AssertionError(player.getPosition().name());
         }
     }
     private void increaseScore(AbstractPlayer winner) {
@@ -246,7 +237,6 @@ public class RoundScreen extends javax.swing.JFrame {
         List<RobotPlayer> robotsBeforePlayer = nextHand.getRobotsBeforePlayer();
         robotsPickCards(robotsBeforePlayer);
     }
-
     
     
     public void robotsPickCards(List<RobotPlayer> robots) {
@@ -358,12 +348,6 @@ public class RoundScreen extends javax.swing.JFrame {
         endRondeScreen.setVisible(true);
     }
 
-    private void moveCardsToTheLeft(JButton pressedButton) {
-        pressedButton.setIcon(null);
-        cardButtons.put(pressedButton, null);
-    }
-    
-    
     public static <K, V> LinkedHashMap<K, V> reverse(LinkedHashMap<K, V> map) {
         LinkedHashMap<K, V> reversedMap = new LinkedHashMap<K, V>();
 
@@ -379,25 +363,10 @@ public class RoundScreen extends javax.swing.JFrame {
     }
 
     private void resetMiddleCards() {
-        leftCard.setIcon(null);
-        leftCard.setBorder(null);
-        leftCard.setOpaque(false);
-        leftCard.setContentAreaFilled(false);
-        rightCard.setIcon(null);
-        rightCard.setBorder(null);
-        rightCard.setBorder(null);
-        rightCard.setOpaque(false);
-        rightCard.setContentAreaFilled(false);
-        bottomCard.setIcon(null);
-        bottomCard.setBorder(null);
-        bottomCard.setOpaque(false);
-        bottomCard.setContentAreaFilled(false);
-        bottomCard.setBorder(null);
-        topCard.setIcon(null);
-        topCard.setBorder(null);
-        topCard.setBorder(null);
-        topCard.setOpaque(false);
-        topCard.setContentAreaFilled(false);
+        makeButtonInvisible(leftCard);
+        makeButtonInvisible(rightCard);
+        makeButtonInvisible(bottomCard);
+        makeButtonInvisible(topCard);
     }
 
     private void handOutBonusesForGuessingRight() {
@@ -835,5 +804,37 @@ public class RoundScreen extends javax.swing.JFrame {
                 }
             }
         }
+    }
+    
+    private void moveCardsToTheLeft(JButton pressedButton) {
+        Card cardToMove = null;
+        for (Entry<JButton, Card> entry : reverse(cardButtons).entrySet()) {
+            JButton button = entry.getKey();
+            Card card = entry.getValue();
+            if (!button.equals(pressedButton)) {
+                cardButtons.put(button, cardToMove);
+                if (cardToMove != null) {
+                    button.setIcon(cardToMove.getImage());
+                } else {
+                    makeButtonInvisible(button);
+                }
+            } else {
+                cardButtons.put(button, cardToMove);
+                if (cardToMove == null) {
+                    makeButtonInvisible(button);
+                } else {
+                    button.setIcon(cardToMove.getImage());
+                }
+                break;
+            }
+            cardToMove = card;
+        }
+    }
+
+    public void makeButtonInvisible(JButton button) {
+        button.setIcon(null);
+        button.setBorder(null);
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
     }
 }
