@@ -62,7 +62,7 @@ public class Hand {
         return this.playedCards.size();
     }
     
-    private boolean isLegal(Card card, AbstractPlayer player) {
+    public boolean isLegal(Card card, AbstractPlayer player) {
         if (this.firstCard == null) {
             return true;
         } else {
@@ -136,6 +136,10 @@ public class Hand {
             }
         }
         return robotsAfter;
+    }
+    
+    public List<AbstractPlayer> getPlayersInOrder(){
+        return this.playersInOrder;
     }
     
     

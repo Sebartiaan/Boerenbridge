@@ -4,14 +4,11 @@
  */
 package com.mycompany.boerenbridge;
 
-import com.mycompany.boerenbridge.screens.EndScreen;
-import com.mycompany.boerenbridge.screens.StartRondeScreen;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.util.function.Predicate;
-import javax.swing.JFrame;
 
 /**
  *
@@ -27,6 +24,7 @@ public class Game {
     private static Game singletonGame;
 
     private Game() {
+        
     }
     
     public static Game getSingleton(){
@@ -37,7 +35,7 @@ public class Game {
     }
 
     private void createRounds() {
-        int numberOfCardsCounter = 13;
+        int numberOfCardsCounter = 3;
         int firstPlayerCounter = 0;
         boolean reached2 = false;
         for (int i = 0 ; i<23 ; i++) {
@@ -58,16 +56,19 @@ public class Game {
             }
         }
     }
+    
+    public void setRounds(List<Round> rounds) {
+        this.rounds.clear();
+        this.rounds.addAll(rounds);
+    }
 
     public void start() {
         if (players.isEmpty()) {
             throw new IllegalStateException("First call createPlayer() before starting the game");
         }
-        createRobotPlayers();
+        createRobotPlayers(3);
         createRounds();
-        final StartRondeScreen startRondeScreen = new StartRondeScreen();
-        startRondeScreen.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        startRondeScreen.setVisible(true);
+        getNextRound().showRondeScreen();
     }
     
     public RealPlayer getRealPlayer(){
@@ -80,7 +81,6 @@ public class Game {
     
     public Round getNextRound(){
         if (rounds.isEmpty()) {
-            new EndScreen().setVisible(true);
             return null;
         } else {
             return rounds.pollFirst();
@@ -103,8 +103,8 @@ public class Game {
         return this.players.get(indexOfPlayer);
     }
 
-    private void createRobotPlayers() {
-        for (int i = 1 ; i<4 ; i++) {
+    public void createRobotPlayers(int numberOfRobotPlayers) {
+        for (int i = 1 ; i<numberOfRobotPlayers+1 ; i++) {
             players.add(new RobotPlayer("Robot " + i, Position.values()[i-1]));
         }
     }

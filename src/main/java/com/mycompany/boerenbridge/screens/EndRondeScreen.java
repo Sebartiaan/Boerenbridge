@@ -7,11 +7,17 @@ package com.mycompany.boerenbridge.screens;
 import com.mycompany.boerenbridge.AbstractPlayer;
 import com.mycompany.boerenbridge.Game;
 import com.mycompany.boerenbridge.Round;
+import java.awt.Component;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import org.apache.commons.lang.ArrayUtils;
 
 /**
@@ -26,6 +32,8 @@ public class EndRondeScreen extends javax.swing.JFrame {
      */
     EndRondeScreen(Map<AbstractPlayer, Integer> scores, Round round) {
         initComponents();
+        
+        jTable1.setDefaultRenderer(Object.class, new TotalScoresAreBold());
         
         if (tableModel == null) {
             tableModel = new DefaultTableModel();
@@ -107,7 +115,7 @@ public class EndRondeScreen extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(198, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(575, 575, 575)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(nextRound, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -116,9 +124,9 @@ public class EndRondeScreen extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(61, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(nextRound, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -134,4 +142,17 @@ public class EndRondeScreen extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private java.awt.Button nextRound;
     // End of variables declaration//GEN-END:variables
+
+    private static class TotalScoresAreBold extends DefaultTableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            JLabel parent = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            if ((row+1)%3==0) {
+                parent.setFont(
+                parent.getFont().deriveFont(Font.BOLD));
+            }
+            return parent;
+        }
+    }
 }

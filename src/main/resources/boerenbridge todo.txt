@@ -11,4 +11,4 @@ easy/hard mode
 eindscherm maken
 scorescherm mooier maken
 totale score toevoegen aan playerInfo ¬¬¬
-
+ai unit test

@@ -7,7 +7,9 @@ package com.mycompany.boerenbridge.screens;
 import com.mycompany.boerenbridge.Game;
 import com.mycompany.boerenbridge.Round;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.text.DefaultFormatter;
 
 /**
  *
@@ -26,6 +28,7 @@ public class AantalSlagenDialog extends javax.swing.JDialog {
         this.round = round;
         this.game = Game.getSingleton();
         initComponents();
+        setTitle("Ronde " + round.getRoundNumber() + ". Aantal kaarten: " + round.getNumberOfCards());
         fillSpinner();
     }
     
@@ -35,6 +38,7 @@ public class AantalSlagenDialog extends javax.swing.JDialog {
         spinnerNumberModel.setMinimum(0);
         spinnerNumberModel.setValue(round.getNumberOfCards()/Game.NUMBER_OF_PLAYERS);
         jSpinner1.setModel(spinnerNumberModel);
+        ((DefaultFormatter)((JSpinner.DefaultEditor)jSpinner1.getEditor()).getTextField().getFormatter()).setAllowsInvalid(false);
     }
 
     /**
@@ -108,6 +112,7 @@ public class AantalSlagenDialog extends javax.swing.JDialog {
     public void performFinish(final Integer guess) {
         this.dispose();
         round.setSlagenFor(game.getRealPlayer(), guess);
+        round.getRondeScreen().addPlayerInfo(game.getRealPlayer());
         round.getRondeScreen().doRobotSlagenGuesses(round.getRobotsAfterPlayer());
     }
 

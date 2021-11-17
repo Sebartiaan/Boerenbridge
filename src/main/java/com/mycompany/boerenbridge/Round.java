@@ -6,7 +6,6 @@ package com.mycompany.boerenbridge;
 
 import com.mycompany.boerenbridge.screens.RoundScreen;
 import com.mycompany.boerenbridge.screens.StartRondeScreen;
-import com.mycompany.boerenbridge.screens.TroefChooser;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,12 +29,13 @@ public class Round {
     private final int roundNumber;
     private final AbstractPlayer firstPlayer;
     private final AbstractPlayer lastPlayer;
-    private final Map<AbstractPlayer, Integer> playersWithSlagen = new LinkedHashMap<>();
+    protected final Map<AbstractPlayer, Integer> playersWithSlagen = new LinkedHashMap<>();
     private final Map<AbstractPlayer, Integer> playersScore = new LinkedHashMap<>();
     private RoundScreen rondeScreen;
     private Suit troef;
-    private Hand currentHand;
+    protected Hand currentHand;
     private int handCounter = 0;
+    private static Deck deck;
 
     public Round(int numberOfCards, int roundNumber, AbstractPlayer firstPlayer) {
         this.numberOfCards = numberOfCards;
@@ -121,7 +121,6 @@ public class Round {
     
     public void setSlagenFor(AbstractPlayer player, int numberOfSlagen) {
         this.playersWithSlagen.put(player, numberOfSlagen);
-        this.rondeScreen.addPlayerInfo(player);
         if (this.playersWithSlagen.values().stream().noneMatch(Objects::isNull)) {
             determineTroef();
         }
@@ -138,9 +137,8 @@ public class Round {
         startRondeScreen.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         startRondeScreen.setVisible(true);
     }
-
-    //TODO
-    private void determineTroef() {
+    
+    protected void determineTroef() {
         Optional<Integer> optional = playersWithSlagen.values().stream().max(Integer::compare);
         if (optional.isPresent()) {
             int mostGuesses = optional.get();
@@ -185,7 +183,7 @@ public class Round {
         return this.playersWithSlagen;
     }
 
-    private AbstractPlayer determineTroefMaker(List<AbstractPlayer> troefCompeters, int mostGuesses) {
+    protected AbstractPlayer determineTroefMaker(List<AbstractPlayer> troefCompeters, int mostGuesses) {
         if (troefCompeters.size() == 1) {
             return troefCompeters.get(0);
         } else {
@@ -232,6 +230,14 @@ public class Round {
     
     public Hand getCurrentHand(){
         return this.currentHand;
+    }
+
+    public void dealCards() {
+        deck = new Deck();
+        deck.shuffle();
+        for (AbstractPlayer player : Game.getSingleton().getPlayers()) {
+            player.setCards(deck.drawCards(getNumberOfCards()));
+        }
     }
     
 }

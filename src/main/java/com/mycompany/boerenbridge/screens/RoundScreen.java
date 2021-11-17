@@ -81,11 +81,7 @@ public class RoundScreen extends javax.swing.JFrame {
     public void startRonde() {
         fillNames();
         fillCardButtons();
-        Deck deck = new Deck();
-        deck.shuffle();
-        for (AbstractPlayer player : game.getPlayers()) {
-            player.setCards(deck.drawCards(round.getNumberOfCards()));
-        }
+        round.dealCards();
         RealPlayer realPlayer = game.getRealPlayer();
         final List<Card> cardsOfPlayer = realPlayer.getCards();
         paintCards(cardsOfPlayer);
@@ -148,6 +144,7 @@ public class RoundScreen extends javax.swing.JFrame {
         for (RobotPlayer robot : robots) {
             final int guess = robot.guessSlagen(round);
             round.setSlagenFor(robot, guess);
+            addPlayerInfo(robot);
         }
     }
 
