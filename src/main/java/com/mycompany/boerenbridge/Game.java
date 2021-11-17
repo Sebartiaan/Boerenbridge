@@ -35,7 +35,7 @@ public class Game {
     }
 
     private void createRounds() {
-        int numberOfCardsCounter = 3;
+        int numberOfCardsCounter = 13;
         int firstPlayerCounter = 0;
         boolean reached2 = false;
         for (int i = 0 ; i<23 ; i++) {
