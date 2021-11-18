@@ -5,7 +5,6 @@
 package com.mycompany.boerenbridge;
 
 import com.mycompany.boerenbridge.screens.RoundScreen;
-import com.mycompany.boerenbridge.screens.StartRondeScreen;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -130,14 +129,6 @@ public class Round {
         return this.playersWithSlagen.get(player);
     }
 
-    public void startRound() {
-        rondeScreen.dispose();
-        getPlayersInStartingOrder().forEach(AbstractPlayer::reset);
-        final StartRondeScreen startRondeScreen = new StartRondeScreen();
-        startRondeScreen.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        startRondeScreen.setVisible(true);
-    }
-    
     protected void determineTroef() {
         Optional<Integer> optional = playersWithSlagen.values().stream().max(Integer::compare);
         if (optional.isPresent()) {

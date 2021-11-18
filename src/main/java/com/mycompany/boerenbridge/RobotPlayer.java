@@ -4,8 +4,10 @@
  */
 package com.mycompany.boerenbridge;
 
-import java.util.Random;
-import java.util.stream.Stream;
+import ai.AIDifficulty;
+import ai.EasyAI;
+import ai.MediumAI;
+import ai.RobotAI;
 
 /**
  *
@@ -13,55 +15,44 @@ import java.util.stream.Stream;
  */
 public class RobotPlayer extends AbstractPlayer {
 
+    private final RobotAI robotAi;
+
     public RobotPlayer(String name, Position position) {
         super(name, position);
-    }
-
-    @Override
-    public boolean isRobotPlayer() {
-        return true;
+        this.robotAi = getAiDifficulty();
     }
 
     public int guessSlagen(Round round) {
-        int notAllowedGuess = -1;
-        if (round.getNotAllowedGuess() != -1) {
-            notAllowedGuess = round.getNotAllowedGuess();
-        }
-        
-        int guess;
-        int numberOfCards = getCards().size();
-        int averageSlagen = numberOfCards/Game.NUMBER_OF_PLAYERS;
-        if (numberOfCards%Game.NUMBER_OF_PLAYERS == 0) {
-            guess = averageSlagen;
-        } else {
-            Random random = new Random();
-            guess = random.nextInt(averageSlagen, averageSlagen +2);
-        }
-        if (notAllowedGuess == guess) {
-            Random random = new Random();
-            if (random.nextBoolean()) {
-                return guess+1;
-            } else {    
-                return guess-1 < 0 ? guess+1 : guess-1;
-            }    
-        } else {
-            return guess;
-        }
+        return this.robotAi.guessSlagen(round);
+    }
+    
+    public RobotAI getAI(){
+        return this.robotAi;
     }
     
     public Suit maakTroef(){
-        //Kiest de meest voorkomende kleur als troef
-        return Suit.DIAMONDS;
+        return this.robotAi.maakTroef();
     }
 
-    //TODO make smarter
     public Card pickCard() {
-        if (getCards().size() == 1) {
-            return getCards().get(0);
+        return this.robotAi.pickCard();
+    }
+
+    private RobotAI getAiDifficulty() {
+        AIDifficulty aiDifficulty = Game.getSingleton().getAIDifficulty();
+        switch (aiDifficulty) {
+            case EASY -> {
+                return new EasyAI(this);
+            }
+            case MEDIUM -> {
+                return new MediumAI(this);
+            }
+            case HARD -> {
+                throw new UnsupportedOperationException();
+            }
+            default -> throw new AssertionError(aiDifficulty.name());
+            
         }
-        Random random = new Random();
-        int randomInt = random.nextInt(0, getCards().size());
-        return getCards().get(randomInt);
     }
     
 }

@@ -4,11 +4,12 @@
  */
 package com.mycompany.boerenbridge;
 
+import ai.AIDifficulty;
+import ai.RobotAI;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  *
@@ -22,6 +23,7 @@ public class Game {
     
     private final List<AbstractPlayer> players = new ArrayList<>();
     private static Game singletonGame;
+    private AIDifficulty aiDifficulty;
 
     private Game() {
         
@@ -63,6 +65,9 @@ public class Game {
     }
 
     public void start() {
+        if (aiDifficulty == null) {
+            throw new IllegalStateException("No AI selected");
+        }
         if (players.isEmpty()) {
             throw new IllegalStateException("First call createPlayer() before starting the game");
         }
@@ -72,7 +77,10 @@ public class Game {
     }
     
     public RealPlayer getRealPlayer(){
-        return (RealPlayer)players.stream().filter(Predicate.not(AbstractPlayer::isRobotPlayer)).findFirst().get();
+        return players.stream()
+                .filter(RealPlayer.class::isInstance)
+                .map(RealPlayer.class::cast)
+                .findFirst().get();
     }
     
     public List<AbstractPlayer> getPlayers(){
@@ -111,5 +119,13 @@ public class Game {
 
     public void createPlayer(String playerName) {
         players.add(new RealPlayer(playerName, Position.BOTTOM));
+    }
+
+    public void setAIDifficulty(AIDifficulty aiDifficulty) {
+        this.aiDifficulty = aiDifficulty;
+    }
+    
+    public AIDifficulty getAIDifficulty(){
+        return this.aiDifficulty;
     }
 }

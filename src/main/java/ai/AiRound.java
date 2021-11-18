@@ -40,7 +40,6 @@ public class AiRound extends Round {
          
         for (int i = 0 ; i<getNumberOfCards() ;i++) {
             playHand();
-            System.out.println("winner: " + currentHand.getWinningCard());
             AbstractPlayer winningPlayer = currentHand.getWinningPlayer();
             if (winningPlayer != null) {
                 increaseScoreFor(winningPlayer);

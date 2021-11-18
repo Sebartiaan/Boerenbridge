@@ -51,8 +51,6 @@ public abstract class AbstractPlayer {
         clearCards();
     }
     
-    public abstract boolean isRobotPlayer();
-
     public String getName() {
         return this.name;
     }

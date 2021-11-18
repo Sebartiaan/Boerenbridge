@@ -4,6 +4,7 @@
  */
 package com.mycompany.boerenbridge.screens;
 
+import ai.AIDifficulty;
 import com.mycompany.boerenbridge.Game;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -117,6 +118,7 @@ public class StartScreen extends javax.swing.JFrame {
         this.dispose();
         Game game = Game.getSingleton();
         game.createPlayer(playerName);
+        game.setAIDifficulty(AIDifficulty.EASY);
         game.start();
     }//GEN-LAST:event_playButtonActionPerformed
 

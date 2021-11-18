@@ -13,9 +13,4 @@ public class RealPlayer extends AbstractPlayer {
     public RealPlayer(String name, Position position) {
         super(name, position);
     }
-
-    @Override
-    public boolean isRobotPlayer() {
-        return false;
-    }
 }

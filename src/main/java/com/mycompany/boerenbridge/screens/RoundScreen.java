@@ -29,9 +29,11 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
@@ -48,6 +50,8 @@ public class RoundScreen extends javax.swing.JFrame {
     private Hand currentHand;
     private Timer t;
     private Timer t2;
+    private ImageIcon pauseImage = new ImageIcon(getClass().getResource("/pause.png"));
+    private ImageIcon playImage = new ImageIcon(getClass().getResource("/play.png"));
     
     /**
      * Creates new form RoundScreen
@@ -68,9 +72,10 @@ public class RoundScreen extends javax.swing.JFrame {
         contentPane.setBackground(Color.white);
     }
     private void initPauserButton() {
-        pauser.setText("Pauzeer");
         pauser.setPreferredSize(new Dimension(81, 60));
         pauser.setEnabled(false);
+        pauser.setOpaque(false);
+        pauser.setContentAreaFilled(false);
     }
     
     private void initTroefViewer() {
@@ -104,7 +109,9 @@ public class RoundScreen extends javax.swing.JFrame {
     
      private void setTroefIcon() {
         troefViewer.setIcon(round.getTroef().getImage());
-    }
+        pauser.setIcon(round.getTroef().getSmallImage());
+        pauser.setHorizontalTextPosition(SwingConstants.CENTER);    
+     }
 
     public void doRealPlayerSlagenGuess() {
         AantalSlagenDialog aantalSlagenDialog = new AantalSlagenDialog(this, rootPaneCheckingEnabled, round);
@@ -340,6 +347,7 @@ public class RoundScreen extends javax.swing.JFrame {
         final HandleWinningPlayerPauser handleWinningPlayerPauser = new HandleWinningPlayerPauser();
         pauser.addActionListener(handleWinningPlayerPauser);
         pauser.setEnabled(true);
+        pauser.setIcon(pauseImage);
         userInputAllowed = false;
         t2 = new Timer(2000, handleWinningPlayerPauser);
         t2.setRepeats(false);
@@ -529,7 +537,6 @@ public class RoundScreen extends javax.swing.JFrame {
         bottomCard.setIconTextGap(0);
 
         pauser.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        pauser.setText("jButton1");
         pauser.setBorder(null);
         pauser.setMaximumSize(new java.awt.Dimension(80, 23));
         pauser.setMinimumSize(new java.awt.Dimension(80, 23));
@@ -786,13 +793,13 @@ public class RoundScreen extends javax.swing.JFrame {
                 paused = !paused;
                 if (!paused) {
                     pauser.setEnabled(false);
-                    pauser.setText("Pauzeer");
                 } else {
-                    pauser.setText("Verder");
+                    pauser.setIcon(playImage);
                 }
             }
             if (!paused && !hasExecuted) {
                 pauser.setEnabled(false);
+                pauser.setIcon(round.getTroef().getSmallImage());
                 hasExecuted = true;
                 userInputAllowed = false;
                 AbstractPlayer winningPlayer = currentHand.getWinningPlayer();

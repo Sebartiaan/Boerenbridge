@@ -4,7 +4,6 @@
  */
 package ai;
 
-import ai.*;
 import com.mycompany.boerenbridge.AbstractPlayer;
 import com.mycompany.boerenbridge.Game;
 import com.mycompany.boerenbridge.Round;
@@ -19,12 +18,13 @@ import java.util.List;
 public class AiTest {
     
     private static AiRound nextRound;
-    public static final int aantal = 3;
+    public static final int aantal = 600;
     
    public static void main(String[] args) {
        
         Game game = Game.getSingleton();
-        int totalscore = 0;
+        game.setAIDifficulty(AIDifficulty.EASY);
+        List<Integer> dataset = new ArrayList<>();
         for (int i = 0 ; i<aantal ; i++) {
             game.getPlayers().clear();
             game.createRobotPlayers(4);
@@ -36,10 +36,18 @@ public class AiTest {
             } while (nextRound != null);
             List<AbstractPlayer> players = game.getPlayers();
             for (AbstractPlayer player : players) {
-                totalscore = totalscore + player.getScore();
+                dataset.add(player.getScore());
            }
         }
-        System.out.println("Average = " + totalscore/(aantal*4));
+        
+        int sum = dataset.stream().mapToInt(Integer::intValue).sum();
+        int mean = sum/dataset.size();
+        
+        int sumOfAllFears = dataset.stream().mapToInt(value -> (value - mean)*(value - mean)).sum();
+        
+        double stdev = Math.sqrt(sumOfAllFears/dataset.size());
+        
+        System.out.println("Mean: " + mean + ", stdev: " + stdev );
     }
     
     public static void createAIRounds(Game game) {
@@ -66,6 +74,7 @@ public class AiTest {
         }
         game.setRounds(rounds);
     }
+
     
 }
 

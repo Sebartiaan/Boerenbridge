@@ -20,6 +20,8 @@ public enum Suit {
 
     private final char id;
     private final String nlNaam;
+    private ImageIcon image;
+    private ImageIcon smallImage;
 
     Suit(char id, String nlNaam) {
             this.id = id;
@@ -48,6 +50,15 @@ public enum Suit {
     }
     
     public ImageIcon getImage(){
-        return new ImageIcon(getClass().getResource("/" + getId() + ".png"));
+        if (this.image == null) {
+            this.image = new ImageIcon(getClass().getResource("/" + getId() + ".png"));
+        }
+        return this.image;
+    }
+    public ImageIcon getSmallImage(){
+        if (this.smallImage == null) {
+            this.smallImage = new ImageIcon(getClass().getResource("/" + getId() + "_s.png"));
+        }
+        return this.smallImage;
     }
 }
