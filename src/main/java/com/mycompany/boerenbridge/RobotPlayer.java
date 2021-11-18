@@ -6,6 +6,7 @@ package com.mycompany.boerenbridge;
 
 import ai.AIDifficulty;
 import ai.EasyAI;
+import ai.HardAI;
 import ai.MediumAI;
 import ai.RobotAI;
 
@@ -48,7 +49,7 @@ public class RobotPlayer extends AbstractPlayer {
                 return new MediumAI(this);
             }
             case HARD -> {
-                throw new UnsupportedOperationException();
+            	return new HardAI(this);
             }
             default -> throw new AssertionError(aiDifficulty.name());
             

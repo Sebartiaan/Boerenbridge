@@ -23,7 +23,7 @@ public class AiTest {
    public static void main(String[] args) {
        
         Game game = Game.getSingleton();
-        game.setAIDifficulty(AIDifficulty.MEDIUM);
+        game.setAIDifficulty(AIDifficulty.HARD);
         List<Integer> dataset = new ArrayList<>();
         for (int i = 0 ; i<aantal ; i++) {
             game.getPlayers().clear();

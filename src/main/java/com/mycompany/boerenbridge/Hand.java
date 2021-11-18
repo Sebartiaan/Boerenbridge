@@ -134,7 +134,8 @@ public class Hand {
     public List<RobotPlayer> getRobotsBeforePlayer(){
         List<RobotPlayer> robotsBefore = new ArrayList<>();
         for (AbstractPlayer player : playersInOrder) {
-            if (player instanceof RobotPlayer robot) { 
+            if (player instanceof RobotPlayer) { 
+            	RobotPlayer robot = (RobotPlayer)player;
                 robotsBefore.add(robot);
             } else {
                 break;
@@ -147,7 +148,8 @@ public class Hand {
         boolean realPlayerFound = false;
         List<RobotPlayer> robotsAfter = new ArrayList<>();
         for (AbstractPlayer player : playersInOrder) {
-            if (realPlayerFound && player instanceof RobotPlayer robot) { 
+            if (realPlayerFound && player instanceof RobotPlayer) { 
+            	RobotPlayer robot = (RobotPlayer)player;
                 robotsAfter.add(robot);
             } else if (player instanceof RealPlayer) {
                 realPlayerFound = true;

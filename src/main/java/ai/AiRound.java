@@ -66,7 +66,8 @@ public class AiRound extends Round {
         Card firstCard = null;
         Card winningCard;
         for (AbstractPlayer player : currentHand.getPlayersInOrder()) {
-            if (player instanceof RobotPlayer robot) {
+            if (player instanceof RobotPlayer) {
+            	RobotPlayer robot = (RobotPlayer)player;
                 Card card;
                 do {
                     card = robot.pickCard(currentHand);
@@ -96,7 +97,8 @@ public class AiRound extends Round {
             int mostGuesses = optional.get();
             List<AbstractPlayer> troefCompeters =  playersWithSlagen.entrySet().stream().filter(entry -> entry.getValue() == mostGuesses).map(Map.Entry::getKey).collect(Collectors.toList());
             AbstractPlayer troefMaker = determineTroefMaker(troefCompeters, mostGuesses);
-            if (troefMaker instanceof RobotPlayer robot) {
+            if (troefMaker instanceof RobotPlayer) {
+            	RobotPlayer robot = (RobotPlayer)troefMaker;
                 final Suit robotTroef = robot.maakTroef();
                 setTroef(robotTroef);
             }
