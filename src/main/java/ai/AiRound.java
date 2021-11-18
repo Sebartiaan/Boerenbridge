@@ -69,7 +69,7 @@ public class AiRound extends Round {
             if (player instanceof RobotPlayer robot) {
                 Card card;
                 do {
-                    card = robot.pickCard();
+                    card = robot.pickCard(currentHand);
                     if (player.equals(currentHand.getPlayersInOrder().get(0))) {
                        firstCard = card;
                     } 

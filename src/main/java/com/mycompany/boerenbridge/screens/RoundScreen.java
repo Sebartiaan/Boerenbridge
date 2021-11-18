@@ -6,7 +6,6 @@ package com.mycompany.boerenbridge.screens;
 
 import com.mycompany.boerenbridge.AbstractPlayer;
 import com.mycompany.boerenbridge.Card;
-import com.mycompany.boerenbridge.Deck;
 import com.mycompany.boerenbridge.Game;
 import com.mycompany.boerenbridge.Hand;
 import com.mycompany.boerenbridge.RealPlayer;
@@ -260,7 +259,7 @@ public class RoundScreen extends javax.swing.JFrame {
                     RobotPlayer robot;
                     do {
                         robot = robots.get(i);
-                        card = robot.pickCard();
+                        card = robot.pickCard(currentHand);
                     } while (!currentHand.playCard(card, robot));
                     drawCard(card, robot);
 

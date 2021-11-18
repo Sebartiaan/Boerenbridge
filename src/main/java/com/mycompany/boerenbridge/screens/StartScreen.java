@@ -118,7 +118,7 @@ public class StartScreen extends javax.swing.JFrame {
         this.dispose();
         Game game = Game.getSingleton();
         game.createPlayer(playerName);
-        game.setAIDifficulty(AIDifficulty.EASY);
+        game.setAIDifficulty(AIDifficulty.MEDIUM);
         game.start();
     }//GEN-LAST:event_playButtonActionPerformed
 

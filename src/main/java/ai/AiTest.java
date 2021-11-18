@@ -18,12 +18,12 @@ import java.util.List;
 public class AiTest {
     
     private static AiRound nextRound;
-    public static final int aantal = 600;
+    public static final int aantal = 3000;
     
    public static void main(String[] args) {
        
         Game game = Game.getSingleton();
-        game.setAIDifficulty(AIDifficulty.EASY);
+        game.setAIDifficulty(AIDifficulty.MEDIUM);
         List<Integer> dataset = new ArrayList<>();
         for (int i = 0 ; i<aantal ; i++) {
             game.getPlayers().clear();
@@ -49,7 +49,6 @@ public class AiTest {
         
         System.out.println("Mean: " + mean + ", stdev: " + stdev );
     }
-    
     public static void createAIRounds(Game game) {
         int numberOfCardsCounter = 13;
         int firstPlayerCounter = 0;

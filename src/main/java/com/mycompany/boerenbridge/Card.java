@@ -15,13 +15,12 @@ public class Card implements Comparable<Card> {
     //=================================================================== fields
     private final Suit suit;
     private final CardValue value;
-    private final ImageIcon image;
+    private ImageIcon image;
     
     //============================================================== constructor
     public Card(Suit suit, CardValue value) {
         this.suit = suit;
         this.value = value;
-        this.image = createImage();
     }
     
     @Override
@@ -76,16 +75,15 @@ public class Card implements Comparable<Card> {
             return suit.getNlNaam() + " "+ value.getNlNaam().toLowerCase();
         }
         
-        private ImageIcon createImage(){
-            StringBuilder builder = new StringBuilder();
-            builder.append('/');
-            builder.append(value.getId());
-            builder.append(suit.getId());
-            builder.append(".gif");
-            return new ImageIcon(getClass().getResource(builder.toString()));
-        }
-        
         public ImageIcon getImage(){
+            if (this.image == null) {
+                StringBuilder builder = new StringBuilder();
+                builder.append('/');
+                builder.append(value.getId());
+                builder.append(suit.getId());
+                builder.append(".gif");
+                this.image =  new ImageIcon(getClass().getResource(builder.toString()));
+            }
             return this.image;
         }
 }

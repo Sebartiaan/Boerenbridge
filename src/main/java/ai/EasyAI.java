@@ -5,6 +5,7 @@
 package ai;
 
 import com.mycompany.boerenbridge.Card;
+import com.mycompany.boerenbridge.Hand;
 import com.mycompany.boerenbridge.RobotPlayer;
 import com.mycompany.boerenbridge.Round;
 import com.mycompany.boerenbridge.Suit;
@@ -32,14 +33,15 @@ public class EasyAI implements RobotAI{
     }
 
     @Override
-    public Card pickCard() {
-        List<Card> cards = robot.getCards();
-        if (cards.size() == 1) {
-            return cards.get(0);
+    public Card pickCard(Hand hand) {
+        Card firstCard = hand.getFirstCard();
+        List<Card> legalCards = AIHelper.getLegalCardsToPlay(robot.getCards(), firstCard == null ? null : firstCard.getSuit());
+        if (legalCards.size() == 1) {
+            return legalCards.get(0);
         }
         Random random = new Random();
-        int randomInt = random.nextInt(0, cards.size());
-        return cards.get(randomInt);
+        int randomInt = random.nextInt(0, legalCards.size());
+        return legalCards.get(randomInt);
     }
 
     @Override

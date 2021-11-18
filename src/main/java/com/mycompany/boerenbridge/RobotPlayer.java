@@ -34,8 +34,8 @@ public class RobotPlayer extends AbstractPlayer {
         return this.robotAi.maakTroef();
     }
 
-    public Card pickCard() {
-        return this.robotAi.pickCard();
+    public Card pickCard(Hand currentHand) {
+        return this.robotAi.pickCard(currentHand);
     }
 
     private RobotAI getAiDifficulty() {
@@ -54,5 +54,6 @@ public class RobotPlayer extends AbstractPlayer {
             
         }
     }
+
     
 }

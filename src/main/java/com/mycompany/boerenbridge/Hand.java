@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -17,7 +18,7 @@ public class Hand {
     
     private final Suit troef;
     private Card firstCard;
-    private final Map<Card, AbstractPlayer> playedCards = new LinkedHashMap<>();
+    private final Map<Card, AbstractPlayer> playedCardsByPlayer = new LinkedHashMap<>();
     private boolean troefPlayed = false;
     private AbstractPlayer winningPlayer;
     private Card winningCard;
@@ -43,13 +44,13 @@ public class Hand {
             if (this.firstCard == null) {
                 this.firstCard = card;
             }
-            playedCards.put(card, player);
+            playedCardsByPlayer.put(card, player);
 
             if (card.getSuit() == troef) {
                 troefPlayed = true;
             }
 
-            if (playedCards.size() == Game.NUMBER_OF_PLAYERS) {
+            if (playedCardsByPlayer.size() == Game.NUMBER_OF_PLAYERS) {
                 winningPlayer = determineWinningPlayer();
             }
             player.removeCard(card);
@@ -59,7 +60,18 @@ public class Hand {
     }
     
     public int getNumberOfPlayedCards(){
-        return this.playedCards.size();
+        return this.playedCardsByPlayer.size();
+    }
+    
+    public Set<Card> getPlayedCards(){
+        return this.playedCardsByPlayer.keySet();
+    }
+    
+    public Card getCurrentlyWinningCard(){
+        if (this.firstCard == null) {
+            return null;
+        }
+        return determineCurrentlyWinningCard();
     }
     
     public boolean isLegal(Card card, AbstractPlayer player) {
@@ -76,18 +88,24 @@ public class Hand {
     }
 
     private AbstractPlayer determineWinningPlayer() {
+        this.winningCard = determineCurrentlyWinningCard();
+        return playedCardsByPlayer.get(winningCard);
+    }
+
+    private Card determineCurrentlyWinningCard() {
+        Card highestCard;
         if (troefPlayed) {
-            winningCard = getHighestCardOfSuit(troef);
+            highestCard = getHighestCardOfSuit(troef);
         } else {
-            winningCard = getHighestCardOfSuit(firstCard.getSuit());
+            highestCard = getHighestCardOfSuit(firstCard.getSuit());
         }
-        return playedCards.get(winningCard);
+        return highestCard;
     }
 
     private Card getHighestCardOfSuit(Suit suit) {
         int highestValue = -1;
         Card highestCard = null;
-        for (Card card : playedCards.keySet()) {
+        for (Card card : playedCardsByPlayer.keySet()) {
             if (card.getSuit() == suit && card.getValue().getValue() > highestValue) {
                 highestCard = card;
                 highestValue = card.getValue().getValue();

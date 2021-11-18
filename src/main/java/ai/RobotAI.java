@@ -5,6 +5,7 @@
 package ai;
 
 import com.mycompany.boerenbridge.Card;
+import com.mycompany.boerenbridge.Hand;
 import com.mycompany.boerenbridge.Round;
 import com.mycompany.boerenbridge.Suit;
 
@@ -25,7 +26,7 @@ public interface RobotAI {
      * Should return the card to be played. Can be random, but if it always determines the same card, it should be a legal one
      * @return 
      */
-    Card pickCard();
+    Card pickCard(Hand hand);
     
     /**
      * Return the troef for the current round. No restrictions 
