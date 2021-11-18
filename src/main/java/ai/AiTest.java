@@ -18,12 +18,12 @@ import java.util.List;
 public class AiTest {
     
     private static AiRound nextRound;
-    public static final int aantal = 3000;
+    public static final int aantal = 500;
     
    public static void main(String[] args) {
        
         Game game = Game.getSingleton();
-        game.setAIDifficulty(AIDifficulty.MEDIUM);
+        game.setAIDifficulty(AIDifficulty.HARDER);
         List<Integer> dataset = new ArrayList<>();
         for (int i = 0 ; i<aantal ; i++) {
             game.getPlayers().clear();
@@ -32,10 +32,12 @@ public class AiTest {
             nextRound = (AiRound) game.getNextRound();
             do {
                 nextRound.startRoundUnitTest();
+//                System.out.println("Cards:  " + nextRound.getNumberOfCards() + "   Gegokt: " + nextRound.getSlagen().values().stream().mapToInt(Integer::valueOf).sum());
                 nextRound = (AiRound) game.getNextRound();
             } while (nextRound != null);
             List<AbstractPlayer> players = game.getPlayers();
             for (AbstractPlayer player : players) {
+            	System.out.println(player.getScore());
                 dataset.add(player.getScore());
            }
         }

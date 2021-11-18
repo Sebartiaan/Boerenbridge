@@ -9,5 +9,5 @@ package ai;
  * @author b.smeets
  */
 public enum AIDifficulty {
-    EASY,MEDIUM,HARD
+    EASY,MEDIUM,HARD,HARDER
 }

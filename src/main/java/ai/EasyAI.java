@@ -29,7 +29,7 @@ public class EasyAI implements RobotAI{
     
     @Override
     public int guessSlagen(Round round) {
-        return AIHelper.getAverageAmountOfSlagen(round, robot.getCards());
+    	return new SlagenGuesser(robot, round).getAverageAmountOfSlagen();
     }
 
     @Override
@@ -46,6 +46,6 @@ public class EasyAI implements RobotAI{
 
     @Override
     public Suit maakTroef() {
-        return AIHelper.findMostCommonSuit(robot.getCards());
+    	return new TroefMaker(robot).findMostCommonSuit();
     }
 }

@@ -35,6 +35,7 @@ public class Round {
     protected Hand currentHand;
     private int handCounter = 0;
     private static Deck deck;
+    private List<Card> cardsSeen = new ArrayList<>();
 
     public Round(int numberOfCards, int roundNumber, AbstractPlayer firstPlayer) {
         this.numberOfCards = numberOfCards;
@@ -87,7 +88,8 @@ public class Round {
     public List<RobotPlayer> getRobotsBeforePlayer(){
         List<RobotPlayer> robotsBefore = new ArrayList<>();
         for (AbstractPlayer player : playersWithSlagen.keySet()) {
-            if (player instanceof RobotPlayer robot) { 
+            if (player instanceof RobotPlayer) {
+            	RobotPlayer robot = (RobotPlayer)player;
                 robotsBefore.add(robot);
             } else {
                 break;
@@ -100,7 +102,8 @@ public class Round {
         boolean realPlayerFound = false;
         List<RobotPlayer> robotsAfter = new ArrayList<>();
         for (AbstractPlayer player : playersWithSlagen.keySet()) {
-            if (realPlayerFound && player instanceof RobotPlayer robot) { 
+            if (realPlayerFound && player instanceof RobotPlayer) {
+            	RobotPlayer robot = (RobotPlayer)player;
                 robotsAfter.add(robot);
             } else if (player instanceof RealPlayer){
                 realPlayerFound = true;
@@ -135,7 +138,8 @@ public class Round {
             int mostGuesses = optional.get();
             List<AbstractPlayer> troefCompeters =  playersWithSlagen.entrySet().stream().filter(entry -> entry.getValue() == mostGuesses).map(Entry::getKey).collect(Collectors.toList());
             AbstractPlayer troefMaker = determineTroefMaker(troefCompeters, mostGuesses);
-            if (troefMaker instanceof RobotPlayer robot) {
+            if (troefMaker instanceof RobotPlayer) {
+            	RobotPlayer robot = (RobotPlayer)troefMaker;
                 final Suit robotTroef = robot.maakTroef();
                 setTroef(robotTroef);
                 JOptionPane.showMessageDialog(rondeScreen, robot.getName() + " maakt " + robotTroef.getNlNaam().toLowerCase() + " troef!");
@@ -229,6 +233,14 @@ public class Round {
         for (AbstractPlayer player : Game.getSingleton().getPlayers()) {
             player.setCards(deck.drawCards(getNumberOfCards()));
         }
+    }
+    
+    public List<Card> getCardsSeen(){
+    	return this.cardsSeen;
+    }
+    
+    public void addCardSeen(Card card) {
+    	this.cardsSeen.add(card);
     }
     
 }

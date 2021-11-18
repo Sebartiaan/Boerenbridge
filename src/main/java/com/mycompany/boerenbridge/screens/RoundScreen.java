@@ -262,6 +262,7 @@ public class RoundScreen extends javax.swing.JFrame {
                         card = robot.pickCard(currentHand);
                     } while (!currentHand.playCard(card, robot));
                     drawCard(card, robot);
+                    round.addCardSeen(card);
 
                     if(robots.size() == i+1){
                         t.stop();
@@ -329,6 +330,7 @@ public class RoundScreen extends javax.swing.JFrame {
             Card card = cardButtons.get(cardButton);
             if (card != null) {
                 if (currentHand.playCard(card, game.getRealPlayer())) {
+                	round.addCardSeen(card);
                     drawCard(card, game.getRealPlayer());
                     moveCardsToTheLeft(cardButton);
                     centerCards();
