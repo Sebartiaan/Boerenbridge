@@ -170,6 +170,8 @@ public class RoundScreen extends javax.swing.JFrame {
             Suit troef = robot.maakTroef();
             round.setTroef(troef);
             JOptionPane.showMessageDialog(this, robot.getName() + " maakt " + round.getTroef().getNlNaam().toLowerCase() + " troef!");
+        } else if (round.getTroefMaker() instanceof RealPlayer) {
+            round.getRondeScreen().createTroefChooser();
         }
     }
 
