@@ -101,6 +101,7 @@ public class RoundScreen extends javax.swing.JFrame {
         setTroefIcon();
         
         currentHand = round.getNextHand();
+        setBackgroundToGreen(round.getFirstPlayer());
         currentHand.setFirstPlayer(round.getFirstPlayer());
         startNextHand(currentHand);
     }
@@ -223,12 +224,11 @@ public class RoundScreen extends javax.swing.JFrame {
             default -> throw new AssertionError(player.getPosition().name());
         }
     }
-    private void increaseScore(AbstractPlayer winner) {
+    private void setBackgroundToGreen(AbstractPlayer winner) {
         leftPlayerInfo.setBackground(Color.WHITE);
         topPlayerInfo.setBackground(Color.WHITE);
         rightPlayerInfo.setBackground(Color.WHITE);
         bottomPlayerInfo.setBackground(Color.WHITE);
-        round.increaseScoreFor(winner);
         switch (winner.getPosition()) {
             case LEFT:
                 increaseScore(leftPlayerInfo, winner);
@@ -811,7 +811,8 @@ public class RoundScreen extends javax.swing.JFrame {
                 hasExecuted = true;
                 userInputAllowed = false;
                 AbstractPlayer winningPlayer = currentHand.getWinningPlayer();
-                increaseScore(winningPlayer);
+                setBackgroundToGreen(winningPlayer);
+                round.increaseScoreFor(winningPlayer);
                 if (round.hasNextHand()) {
                     currentHand = round.getNextHand();
                     currentHand.setFirstPlayer(winningPlayer);
