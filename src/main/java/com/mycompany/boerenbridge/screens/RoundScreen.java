@@ -152,6 +152,10 @@ public class RoundScreen extends javax.swing.JFrame {
             round.setSlagenFor(robot, guess);
             addPlayerInfo(robot);
         }
+        if (round.getTroef() != null && round.getTroefMaker() instanceof RobotPlayer) {
+            RobotPlayer robot = (RobotPlayer)round.getTroefMaker();
+            JOptionPane.showMessageDialog(this, robot.getName() + " maakt " + round.getTroef().getNlNaam().toLowerCase() + " troef!");
+        }
     }
 
     public void createTroefChooser() {
@@ -382,16 +386,6 @@ public class RoundScreen extends javax.swing.JFrame {
         makeButtonInvisible(topCard);
     }
 
-    private void handOutBonusesForGuessingRight() {
-        for (AbstractPlayer player : game.getPlayers()) {
-            int predictedSlagen = round.getSlagenFor(player);
-            int actualSlagen = round.getScoreFor(player);
-            if (predictedSlagen == actualSlagen) {
-                player.increaseScore(10);
-            }
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -543,7 +537,7 @@ public class RoundScreen extends javax.swing.JFrame {
         pauser.setMinimumSize(new java.awt.Dimension(80, 23));
 
         try {
-            jPanel1 = new JPanelWithBackground("src\\main\\resources\\sjopper.png");
+            jPanel1 = new JPanelWithBackground(getClass().getResource("/sjopper.png"));
             jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         } catch (IOException ex) {
             Logger.getLogger(RoundScreen.class.getName()).log(Level.SEVERE, null, ex);
@@ -569,7 +563,7 @@ public class RoundScreen extends javax.swing.JFrame {
                             .addComponent(bottomPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 5, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(leftPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -608,7 +602,7 @@ public class RoundScreen extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(card13, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 337, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(rightPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -639,7 +633,7 @@ public class RoundScreen extends javax.swing.JFrame {
                 .addComponent(bottomCard, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(notAllowedSlagenLabel)
-                .addGap(20, 20, 20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bottomPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -811,8 +805,8 @@ public class RoundScreen extends javax.swing.JFrame {
                     userInputAllowed = true;
                     startNextHand(currentHand);
                 } else {
+                    round.end();
                     RoundScreen.this.dispose();
-                    handOutBonusesForGuessingRight();
                     createEndRondeScreen();
                 }
             }

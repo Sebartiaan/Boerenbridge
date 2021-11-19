@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import org.apache.commons.lang.ArrayUtils;
 
 /**
@@ -27,11 +26,25 @@ import org.apache.commons.lang.ArrayUtils;
 public class EndRondeScreen extends javax.swing.JFrame {
 
     public static DefaultTableModel tableModel;
+    public Round nextRound;
     /**
      * Creates new form EndRondeScreen
      */
     EndRondeScreen(Map<AbstractPlayer, Integer> scores, Round round) {
         initComponents();
+        setTitle("Stand na ronde nummer " + round.getRoundNumber() + " (" + round.getNumberOfCards() + " kaarten)");
+        nextRound = Game.getSingleton().getNextRound();
+        if (nextRound == null) {
+            nextRoundButton.setLabel("Spel beëindigen");
+            List<AbstractPlayer> winners = Game.getSingleton().getWinners();
+            String winnerText;
+            if (winners.size() == 1) {
+                winnerText = "De winnaar is " + winners.get(0).getName() + " met een score van " + winners.get(0).getScore() + "!";
+            } else {
+                winnerText = "We hebben een gelijke stand! De winnaars van dit spel zijn: " + winners.stream().map(AbstractPlayer::getName).collect(Collectors.joining(", ")) + " met een score van " + winners.get(0).getScore() + "!" ;
+            }
+            winnerLabel.setText(winnerText);
+        }
         
         jTable1.setDefaultRenderer(Object.class, new TotalScoresAreBold());
         
@@ -81,7 +94,8 @@ public class EndRondeScreen extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        nextRound = new java.awt.Button();
+        nextRoundButton = new java.awt.Button();
+        winnerLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,49 +112,58 @@ public class EndRondeScreen extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        nextRound.setActionCommand("nextRound");
-        nextRound.setLabel("Volgende ronde");
-        nextRound.addActionListener(new java.awt.event.ActionListener() {
+        nextRoundButton.setActionCommand("nextRound");
+        nextRoundButton.setLabel("Volgende ronde");
+        nextRoundButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nextRoundActionPerformed(evt);
+                nextRoundButtonActionPerformed(evt);
             }
         });
+
+        winnerLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(183, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(198, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(nextRound, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(winnerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(nextRoundButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(61, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(nextRound, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(winnerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(nextRoundButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nextRoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextRoundActionPerformed
+    private void nextRoundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextRoundButtonActionPerformed
         this.dispose();
-        Game.getSingleton().getNextRound().showRondeScreen();
-    }//GEN-LAST:event_nextRoundActionPerformed
-
+        if (this.nextRound != null) {
+            nextRound.showRondeScreen();
+        }
+        
+    }//GEN-LAST:event_nextRoundButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private java.awt.Button nextRound;
+    private java.awt.Button nextRoundButton;
+    private javax.swing.JLabel winnerLabel;
     // End of variables declaration//GEN-END:variables
 
     private static class TotalScoresAreBold extends DefaultTableCellRenderer {

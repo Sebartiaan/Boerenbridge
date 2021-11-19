@@ -10,6 +10,9 @@ import javax.swing.event.DocumentListener;
 import com.mycompany.boerenbridge.Game;
 
 import ai.AIDifficulty;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JRadioButton;
 
 /**
  *
@@ -18,12 +21,15 @@ import ai.AIDifficulty;
 public class StartScreen extends javax.swing.JFrame {
 
     private String playerName;
+    List<JRadioButton> radioButtons = new ArrayList<>();
 
     /**
      * Creates new form StartScreen
      */
     public StartScreen() {
         initComponents();
+        initRadioButtons();
+        hardButton.setSelected(true);
         nameEntryField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -62,10 +68,15 @@ public class StartScreen extends javax.swing.JFrame {
         playButton = new javax.swing.JButton();
         nameEntryField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        easyButton = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
+        mediumButton = new javax.swing.JRadioButton();
+        hardButton = new javax.swing.JRadioButton();
+        harderButton = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Boerenbridge");
         jLabel1.setToolTipText("");
@@ -79,8 +90,45 @@ public class StartScreen extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        nameEntryField.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel2.setText("Vul je naam in:");
+
+        easyButton.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        easyButton.setText("Heel makkelijk");
+        easyButton.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                easyButtonItemStateChanged(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel3.setText("Moeilijkheid:");
+
+        mediumButton.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        mediumButton.setText("Makkelijk");
+        mediumButton.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                mediumButtonItemStateChanged(evt);
+            }
+        });
+
+        hardButton.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        hardButton.setText("Gemiddeld");
+        hardButton.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                hardButtonItemStateChanged(evt);
+            }
+        });
+
+        harderButton.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        harderButton.setText("Moeilijk");
+        harderButton.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                harderButtonItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,26 +139,45 @@ public class StartScreen extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(23, 23, 23))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(293, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(53, 53, 53)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(playButton, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(193, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(playButton, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(harderButton)
+                    .addComponent(hardButton)
+                    .addComponent(mediumButton)
+                    .addComponent(easyButton)
                     .addComponent(nameEntryField, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(293, Short.MAX_VALUE))
+                .addContainerGap(381, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(124, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(nameEntryField, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameEntryField, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(86, 86, 86)
+                    .addComponent(easyButton)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
+                .addComponent(mediumButton)
+                .addGap(18, 18, 18)
+                .addComponent(hardButton)
+                .addGap(18, 18, 18)
+                .addComponent(harderButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addComponent(playButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addGap(34, 34, 34))
         );
 
         pack();
@@ -120,14 +187,70 @@ public class StartScreen extends javax.swing.JFrame {
         this.dispose();
         Game game = Game.getSingleton();
         game.createPlayer(playerName);
-        game.setAIDifficulty(AIDifficulty.HARDER);
+        game.setAIDifficulty(getDifficulty());
         game.start();
     }//GEN-LAST:event_playButtonActionPerformed
 
+    private void easyButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_easyButtonItemStateChanged
+        if (easyButton.isSelected()) {
+            deselectAllExcept(easyButton);
+        }
+    }//GEN-LAST:event_easyButtonItemStateChanged
+
+    private void mediumButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mediumButtonItemStateChanged
+        if (mediumButton.isSelected()) {
+            deselectAllExcept(mediumButton);
+        }
+    }//GEN-LAST:event_mediumButtonItemStateChanged
+
+    private void hardButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hardButtonItemStateChanged
+        if (hardButton.isSelected()) {
+            deselectAllExcept(hardButton);
+        }
+    }//GEN-LAST:event_hardButtonItemStateChanged
+
+    private void harderButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_harderButtonItemStateChanged
+        if (harderButton.isSelected()) {
+            deselectAllExcept(harderButton);
+        }
+    }//GEN-LAST:event_harderButtonItemStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton easyButton;
+    private javax.swing.JRadioButton hardButton;
+    private javax.swing.JRadioButton harderButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JRadioButton mediumButton;
     private javax.swing.JTextField nameEntryField;
     private javax.swing.JButton playButton;
     // End of variables declaration//GEN-END:variables
+
+    private void deselectAllExcept(JRadioButton button) {
+        radioButtons.stream().filter(b -> !b.equals(button)).forEach(b -> b.setSelected(false));
+    }
+
+    private void initRadioButtons() {
+        this.radioButtons.add(easyButton);
+        this.radioButtons.add(mediumButton);
+        this.radioButtons.add(hardButton);
+        this.radioButtons.add(harderButton);
+    }
+
+    private AIDifficulty getDifficulty() {
+        if (easyButton.isSelected()) {
+            return AIDifficulty.EASY;
+        }
+        if (mediumButton.isSelected()) {
+            return AIDifficulty.MEDIUM;
+        }
+        if (hardButton.isSelected()) {
+            return AIDifficulty.HARD;
+        }
+        if (harderButton.isSelected()) {
+            return AIDifficulty.HARDER;
+        }
+        throw new IllegalStateException("Op de een of andere manier was er geen moeilijkheidsbutton geselecteerd");
+    }
 }

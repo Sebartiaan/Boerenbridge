@@ -5,7 +5,6 @@
 package com.mycompany.boerenbridge;
 
 import ai.AIDifficulty;
-import ai.RobotAI;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -24,6 +23,7 @@ public class Game {
     private final List<AbstractPlayer> players = new ArrayList<>();
     private static Game singletonGame;
     private AIDifficulty aiDifficulty;
+    private List<AbstractPlayer> winners = new ArrayList<>();
 
     private Game() {
         
@@ -43,7 +43,6 @@ public class Game {
         for (int i = 0 ; i<23 ; i++) {
             final Round round = new Round(numberOfCardsCounter, i+1, getPlayers().get(firstPlayerCounter));
             rounds.add(round);
-
             firstPlayerCounter++;
             if (firstPlayerCounter > getPlayers().size()-1) {
                 firstPlayerCounter=0;
@@ -89,6 +88,7 @@ public class Game {
     
     public Round getNextRound(){
         if (rounds.isEmpty()) {
+            determineWinners();
             return null;
         } else {
             return rounds.pollFirst();
@@ -128,4 +128,23 @@ public class Game {
     public AIDifficulty getAIDifficulty(){
         return this.aiDifficulty;
     }
+
+    private void determineWinners() {
+        int maxScore = -1;
+        for (AbstractPlayer player : getPlayers()) {
+            if (player.getScore() > maxScore) {
+                maxScore = player.getScore();
+            }
+        }
+        for (AbstractPlayer player : getPlayers()) {
+            if (player.getScore() == maxScore) {
+                this.winners.add(player);
+            }
+        }
+    }
+    
+    public List<AbstractPlayer> getWinners(){
+        return this.winners;
+    }
+    
 }

@@ -48,19 +48,10 @@ public class AiRound extends Round {
             }
         }
         
-        handOutBonusesForGuessingRight();
+        end();
          
     }
     
-    private void handOutBonusesForGuessingRight() {
-        for (AbstractPlayer player : Game.getSingleton().getPlayers()) {
-            int predictedSlagen = getSlagenFor(player);
-            int actualSlagen = getScoreFor(player);
-            if (predictedSlagen == actualSlagen) {
-                player.increaseScore(10);
-            }
-        }
-    }
 
     public void playHand() {
         Card firstCard = null;

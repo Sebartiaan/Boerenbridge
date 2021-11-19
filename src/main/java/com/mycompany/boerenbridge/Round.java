@@ -36,6 +36,7 @@ public class Round {
     private int handCounter = 0;
     private static Deck deck;
     private List<Card> cardsSeen = new ArrayList<>();
+    private AbstractPlayer troefMaker;
 
     public Round(int numberOfCards, int roundNumber, AbstractPlayer firstPlayer) {
         this.numberOfCards = numberOfCards;
@@ -137,12 +138,11 @@ public class Round {
         if (optional.isPresent()) {
             int mostGuesses = optional.get();
             List<AbstractPlayer> troefCompeters =  playersWithSlagen.entrySet().stream().filter(entry -> entry.getValue() == mostGuesses).map(Entry::getKey).collect(Collectors.toList());
-            AbstractPlayer troefMaker = determineTroefMaker(troefCompeters, mostGuesses);
+            troefMaker = determineTroefMaker(troefCompeters, mostGuesses);
             if (troefMaker instanceof RobotPlayer) {
             	RobotPlayer robot = (RobotPlayer)troefMaker;
                 final Suit robotTroef = robot.maakTroef();
                 setTroef(robotTroef);
-                JOptionPane.showMessageDialog(rondeScreen, robot.getName() + " maakt " + robotTroef.getNlNaam().toLowerCase() + " troef!");
             } else {
                 rondeScreen.createTroefChooser();
             }
@@ -208,6 +208,10 @@ public class Round {
     public Suit getTroef(){
         return this.troef;
     }
+    
+    public AbstractPlayer getTroefMaker(){
+        return this.troefMaker;
+    }
 
     public boolean hasNextHand(){
         return handCounter < numberOfCards;
@@ -241,6 +245,16 @@ public class Round {
     
     public void addCardSeen(Card card) {
     	this.cardsSeen.add(card);
+    }
+
+    public void end() {
+        for (AbstractPlayer player : this.playersWithSlagen.keySet()) {
+            int predictedSlagen = getSlagenFor(player);
+            int actualSlagen = getScoreFor(player);
+            if (predictedSlagen == actualSlagen) {
+                player.increaseScore(10);
+            }
+        }
     }
     
 }
