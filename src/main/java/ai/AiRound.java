@@ -31,6 +31,7 @@ public class AiRound extends Round {
          getPlayersInStartingOrder().forEach(AbstractPlayer::reset);
          dealCards();
          doRobotSlagenGuesses(getPlayersInStartingOrder());
+         determineTroef();
          
          if (getNumberOfCards() == playersWithSlagen.values().stream().mapToInt(Integer::intValue).sum()) {
              throw new IllegalStateException("Aantal kaarten mag nooit gelijk zijn aan het totaal aantal gegokte slagen");
@@ -83,7 +84,7 @@ public class AiRound extends Round {
     }
 
     @Override
-    protected void determineTroef() {
+    public void determineTroef() {
         Optional<Integer> optional = playersWithSlagen.values().stream().max(Integer::compare);
         if (optional.isPresent()) {
             int mostGuesses = optional.get();

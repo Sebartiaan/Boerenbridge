@@ -11,9 +11,11 @@ import com.mycompany.boerenbridge.Hand;
 import com.mycompany.boerenbridge.RealPlayer;
 import com.mycompany.boerenbridge.RobotPlayer;
 import com.mycompany.boerenbridge.Round;
+import com.mycompany.boerenbridge.Suit;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -24,9 +26,11 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -136,6 +140,7 @@ public class RoundScreen extends javax.swing.JFrame {
     }
 
     private void paintCards(List<Card> cardsOfPlayer) {
+        cardButtons.keySet().forEach(button -> makeButtonInvisible(button));
         int counter = 0;
         for (Card card : cardsOfPlayer) {
             JButton cardButton = getNthElement(cardButtons.keySet(), counter);
@@ -152,8 +157,17 @@ public class RoundScreen extends javax.swing.JFrame {
             round.setSlagenFor(robot, guess);
             addPlayerInfo(robot);
         }
-        if (round.getTroef() != null && round.getTroefMaker() instanceof RobotPlayer) {
+        if (round.getSlagen().values().stream().noneMatch(Objects::isNull)) {
+            round.determineTroef();
+            if (round.getTroefCompeters().size() > 1) {
+                setRandomTroefMakerAndNotifyUser();
+            }
+        }
+        
+        if (round.getTroefMaker() instanceof RobotPlayer) {
             RobotPlayer robot = (RobotPlayer)round.getTroefMaker();
+            Suit troef = robot.maakTroef();
+            round.setTroef(troef);
             JOptionPane.showMessageDialog(this, robot.getName() + " maakt " + round.getTroef().getNlNaam().toLowerCase() + " troef!");
         }
     }
@@ -285,7 +299,6 @@ public class RoundScreen extends javax.swing.JFrame {
             if (currentHand.getWinningPlayer() != null) {
                 handleWinningPlayer();
             }
-            System.out.println("com.mycompany.boerenbridge.screens.RondeScreen.robotsPickCards()");
         }
     }
 
@@ -875,6 +888,24 @@ public class RoundScreen extends javax.swing.JFrame {
         button.setBorder(null);
         button.setOpaque(false);
         button.setContentAreaFilled(false);
+    }
+    
+    public void setRandomTroefMakerAndNotifyUser() throws HeadlessException {
+        List<AbstractPlayer> troefCompeters = round.getTroefCompeters();
+        Random random = new Random();
+        int randomPlayerIndex = random.nextInt(0, troefCompeters.size());
+        AbstractPlayer troefMaker = troefCompeters.get(randomPlayerIndex);
+        StringBuilder message = new StringBuilder();
+        message.append("De volgende spelers hebben ");
+        message.append(round.getMostGuesses());
+        message.append(" slagen geraden:\n");
+        String competerNames = troefCompeters.stream().map(AbstractPlayer::getName).collect(Collectors.joining(", "));
+        message.append(competerNames);
+        message.append("\nNa loting is bepaald dat ");
+        message.append(troefMaker.getName());
+        message.append(" troef mag maken");
+        JOptionPane.showMessageDialog(round.getRondeScreen(), message.toString());
+        round.setTroefMaker(troefMaker);
     }
     
     

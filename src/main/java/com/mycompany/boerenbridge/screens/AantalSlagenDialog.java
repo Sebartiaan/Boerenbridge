@@ -4,8 +4,15 @@
  */
 package com.mycompany.boerenbridge.screens;
 
+import com.mycompany.boerenbridge.AbstractPlayer;
 import com.mycompany.boerenbridge.Game;
+import com.mycompany.boerenbridge.RealPlayer;
 import com.mycompany.boerenbridge.Round;
+import java.awt.HeadlessException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -113,6 +120,15 @@ public class AantalSlagenDialog extends javax.swing.JDialog {
         this.dispose();
         round.setSlagenFor(game.getRealPlayer(), guess);
         round.getRondeScreen().addPlayerInfo(game.getRealPlayer());
+        if (round.getSlagen().values().stream().noneMatch(Objects::isNull)) {
+            round.determineTroef();
+            if (round.getTroefCompeters().size() > 1) {
+                round.getRondeScreen().setRandomTroefMakerAndNotifyUser();
+            }
+            if (round.getTroefMaker() instanceof RealPlayer) {
+                round.getRondeScreen().createTroefChooser();
+            }
+        }
         round.getRondeScreen().doRobotSlagenGuesses(round.getRobotsAfterPlayer());
     }
 

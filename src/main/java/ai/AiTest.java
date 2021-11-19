@@ -37,7 +37,7 @@ public class AiTest {
             } while (nextRound != null);
             List<AbstractPlayer> players = game.getPlayers();
             for (AbstractPlayer player : players) {
-            	System.out.println(player.getScore());
+//            	System.out.println(player.getScore());
                 dataset.add(player.getScore());
            }
         }
