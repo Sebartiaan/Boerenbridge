@@ -4,6 +4,8 @@
  */
 package ai;
 
+import java.util.Collections;
+
 import com.mycompany.boerenbridge.Card;
 import com.mycompany.boerenbridge.Hand;
 import com.mycompany.boerenbridge.RobotPlayer;
@@ -37,13 +39,13 @@ public class MediumAI implements RobotAI {
         int current = round.getScoreFor(robot);
         
         if (hand.getFirstCard() == null) {
-            return getCardPicker().getStartingCard(guessed, current, hand);
+            return getCardPicker().getStartingCard(guessed, current);
         }
         
         if (guessed > current) {
-        	return getCardPicker().getGoodCard(hand);
+        	return getCardPicker().getCardToWin(hand, Collections.emptyList());
         } else {
-            return getCardPicker().getBadCard(hand);
+            return getCardPicker().getCardToLose(hand);
         }
     }
 

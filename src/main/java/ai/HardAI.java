@@ -14,7 +14,6 @@ public class HardAI implements RobotAI {
 	private Round round;
 	private final RobotPlayer robot;
 	private List<Card> markedCards = new ArrayList<>();
-	private CardPicker cardPicker;
 
 	public HardAI(RobotPlayer robot) {
 		this.robot = robot;
@@ -33,26 +32,19 @@ public class HardAI implements RobotAI {
 		int current = round.getScoreFor(robot);
 
 		if (hand.getFirstCard() == null) {
-			return getCardPicker().getStartingCard(guessed, current, hand);
+			return new CardPicker(round, robot).getStartingCard(guessed, current);
 		}
 
 		if (guessed > current) {
-			return getCardPicker().getGoodCard(hand);
+			return new CardPicker(round, robot).getCardToWin(hand, markedCards);
 		} else {
-			return getCardPicker().getBadCard(hand);
+			return new CardPicker(round, robot).getCardToLose(hand);
 		}
 	}
 
 	@Override
 	public Suit maakTroef() {
 		return new TroefMaker(robot).findSuitWithBestValue().getSuit();
-	}
-
-	private CardPicker getCardPicker() {
-		if (this.cardPicker == null) {
-			this.cardPicker = new CardPicker(round, robot);
-		}
-		return this.cardPicker;
 	}
 
 }

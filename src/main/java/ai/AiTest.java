@@ -18,7 +18,7 @@ import java.util.List;
 public class AiTest {
     
     private static AiRound nextRound;
-    public static final int aantal = 500;
+    public static final int aantal = 2000;
     
    public static void main(String[] args) {
        

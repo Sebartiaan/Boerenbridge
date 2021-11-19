@@ -36,17 +36,15 @@ public class AiRound extends Round {
          if (getNumberOfCards() == playersWithSlagen.values().stream().mapToInt(Integer::intValue).sum()) {
              throw new IllegalStateException("Aantal kaarten mag nooit gelijk zijn aan het totaal aantal gegokte slagen");
          }
-         currentHand = getNextHand();
-         currentHand.setFirstPlayer(getFirstPlayer());
          
+        currentHand = getNextHand();
+        currentHand.setFirstPlayer(getFirstPlayer());
         for (int i = 0 ; i<getNumberOfCards() ;i++) {
             playHand();
             AbstractPlayer winningPlayer = currentHand.getWinningPlayer();
-            if (winningPlayer != null) {
-                increaseScoreFor(winningPlayer);
-                currentHand = getNextHand();
-                currentHand.setFirstPlayer(winningPlayer);
-            }
+            currentHand = getNextHand();
+            currentHand.setFirstPlayer(winningPlayer);
+            increaseScoreFor(winningPlayer);
         }
         
         end();

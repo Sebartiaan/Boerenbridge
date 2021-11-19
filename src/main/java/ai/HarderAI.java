@@ -18,7 +18,6 @@ public class HarderAI implements RobotAI {
 	private Round round;
 	private final RobotPlayer robot;
 	private List<Card> markedCards = new ArrayList<>();
-	private CardPicker cardPicker;
 	private SuitWithValue suitWithValue;
 
 	public HarderAI(RobotPlayer robot) {
@@ -42,13 +41,13 @@ public class HarderAI implements RobotAI {
 		current += getNumberOfCertainWinCards();
 		
 		if (hand.getFirstCard() == null) {
-			return getCardPicker().getStartingCard(guessed, current, hand);
+			return new CardPicker(round, robot).getStartingCard(guessed, current);
 		}
 
 		if (guessed > current) {
-			return getCardPicker().getGoodCard(hand);
+			return new CardPicker(round, robot).getCardToWin(hand, this.markedCards);
 		} else {
-			return getCardPicker().getBadCard(hand);
+			return new CardPicker(round, robot).getCardToLoseHarder(hand);
 		}
 	}
 
@@ -62,10 +61,6 @@ public class HarderAI implements RobotAI {
 			if (isCertainWinTroef(troef, troefsSeen)) {
 				numberOfCertainWinCards++;
 			}
-		}
-		
-		if (round.getNumberOfCards() > 9) {
-			numberOfCertainWinCards += AIHelper.getCardsOfValue(AIHelper.getCardsNotOfSuit(robot.getCards(), round.getTroef()), CardValue.ACE).size();
 		}
 		
 		return numberOfCertainWinCards;
@@ -94,13 +89,4 @@ public class HarderAI implements RobotAI {
 		return this.suitWithValue.getSuit();
 
 	}
-	
-	private CardPicker getCardPicker() {
-		if (this.cardPicker == null) {
-			this.cardPicker = new CardPicker(round, robot);
-		}
-		return this.cardPicker;
-	}
-
-
 }
