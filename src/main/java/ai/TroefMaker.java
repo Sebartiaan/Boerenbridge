@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Random;
-import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -84,8 +84,5 @@ public class TroefMaker {
 		public Integer getValue() {
 			return value;
 		}
-		
 	}
-	
-	
 }

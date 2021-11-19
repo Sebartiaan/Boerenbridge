@@ -92,8 +92,9 @@ public class HarderAI implements RobotAI {
 	@Override
 	public Suit maakTroef() {
 		return this.suitWithValue.getSuit();
-	}
 
+	}
+	
 	private CardPicker getCardPicker() {
 		if (this.cardPicker == null) {
 			this.cardPicker = new CardPicker(round, robot);

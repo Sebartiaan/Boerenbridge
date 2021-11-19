@@ -94,19 +94,20 @@ public class SlagenGuesser {
 			return guess;
 		}
 	}
-
-	public Random getRandom() {
-		if (this.random == null) {
-			this.random = new Random();
-		}
-		return this.getRandom();
-	}
 	
 	protected final RobotPlayer getRobot() {
 		return this.robot;
 	}
 	protected final Round getRound() {
 		return this.round;
+	}
+
+
+	public Random getRandom() {
+		if (this.random == null) {
+			this.random = new Random();
+		}
+		return this.random;
 	}
 
 }

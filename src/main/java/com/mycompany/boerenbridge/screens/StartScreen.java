@@ -4,10 +4,12 @@
  */
 package com.mycompany.boerenbridge.screens;
 
-import ai.AIDifficulty;
-import com.mycompany.boerenbridge.Game;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import com.mycompany.boerenbridge.Game;
+
+import ai.AIDifficulty;
 
 /**
  *
