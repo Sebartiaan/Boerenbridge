@@ -185,11 +185,20 @@ public class RoundScreen extends javax.swing.JFrame {
     private void fillNames() {
         for (AbstractPlayer player : game.getPlayers()) {
             switch (player.getPosition()) {
-                case LEFT -> leftPlayerInfo.add(player.getName());
-                case TOP -> topPlayerInfo.add(player.getName());
-                case RIGHT -> rightPlayerInfo.add(player.getName());
-                case BOTTOM -> bottomPlayerInfo.add(player.getName());
-                default -> throw new AssertionError(player.getPosition().name());
+                case LEFT:
+                	leftPlayerInfo.add(player.getName());
+                	break;
+                case TOP: 
+                	topPlayerInfo.add(player.getName());
+                	break;
+                case RIGHT: 
+                	rightPlayerInfo.add(player.getName());
+                	break;
+                case BOTTOM:
+                	bottomPlayerInfo.add(player.getName());
+                	break;
+                default: 
+                	throw new AssertionError(player.getPosition().name());
             }
         }
     }
@@ -199,31 +208,32 @@ public class RoundScreen extends javax.swing.JFrame {
         final String roundScore = "Slagen: " + String.valueOf(round.getScoreFor(player));
         final String totalScore = "Totaal: " + String.valueOf(player.getScore());
         switch (player.getPosition()) {
-            case LEFT -> {
+            case LEFT:
                 leftPlayerInfo.add("");
                 leftPlayerInfo.add(slagen);
                 leftPlayerInfo.add(roundScore);
                 leftPlayerInfo.add(totalScore);
-            }
-            case TOP -> {
+                break;
+            case TOP:
                 topPlayerInfo.add("");
                 topPlayerInfo.add(slagen);
                 topPlayerInfo.add(roundScore);
                 topPlayerInfo.add(totalScore);
-            }
-            case RIGHT -> {
+                break;
+            case RIGHT:
                 rightPlayerInfo.add("");
                 rightPlayerInfo.add(slagen);
                 rightPlayerInfo.add(roundScore);
                 rightPlayerInfo.add(totalScore);
-            }
-            case BOTTOM -> {
+                break;
+            case BOTTOM:
                 bottomPlayerInfo.add("");
                 bottomPlayerInfo.add(slagen);
                 bottomPlayerInfo.add(roundScore);
                 bottomPlayerInfo.add(totalScore);
-            }
-            default -> throw new AssertionError(player.getPosition().name());
+                break;
+            default:
+            	throw new AssertionError(player.getPosition().name());
         }
     }
     private void setBackgroundToGreen(AbstractPlayer winner) {
@@ -896,7 +906,7 @@ public class RoundScreen extends javax.swing.JFrame {
     public void setRandomTroefMakerAndNotifyUser() throws HeadlessException {
         List<AbstractPlayer> troefCompeters = round.getTroefCompeters();
         Random random = new Random();
-        int randomPlayerIndex = random.nextInt(0, troefCompeters.size());
+        int randomPlayerIndex = random.nextInt(troefCompeters.size());
         AbstractPlayer troefMaker = troefCompeters.get(randomPlayerIndex);
         StringBuilder message = new StringBuilder();
         message.append("De volgende spelers hebben ");

@@ -48,7 +48,7 @@ public class TroefMaker {
 		if (bestSuits.size() == 1) {
 			return new SuitWithValue(bestSuits.get(0), max);
 		} else {
-			return new SuitWithValue(bestSuits.get(new Random().nextInt(0, bestSuits.size())), max);
+			return new SuitWithValue(bestSuits.get(new Random().nextInt(bestSuits.size())), max);
 		}
 	}
 	

@@ -40,7 +40,7 @@ public class EasyAI implements RobotAI{
             return legalCards.get(0);
         }
         Random random = new Random();
-        int randomInt = random.nextInt(0, legalCards.size());
+        int randomInt = random.nextInt(legalCards.size());
         return legalCards.get(randomInt);
     }
 

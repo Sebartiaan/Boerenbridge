@@ -3,6 +3,7 @@ package ai;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.mycompany.boerenbridge.Card;
 import com.mycompany.boerenbridge.CardValue;
@@ -82,7 +83,7 @@ public class SlagenGuesser {
 		if (numberOfCards % Game.NUMBER_OF_PLAYERS == 0) {
 			guess = averageSlagen;
 		} else {
-			guess = getRandom().nextInt(averageSlagen, averageSlagen + 2);
+			guess = ThreadLocalRandom.current().nextInt(averageSlagen, averageSlagen + 2);
 		}
 		if (notAllowedGuess == guess) {
 			if (getRandom().nextBoolean()) {

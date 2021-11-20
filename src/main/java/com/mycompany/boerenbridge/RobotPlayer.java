@@ -41,22 +41,17 @@ public class RobotPlayer extends AbstractPlayer {
 
     private RobotAI getAiDifficulty() {
         AIDifficulty aiDifficulty = Game.getSingleton().getAIDifficulty();
-        switch (aiDifficulty) {
-            case EASY -> {
-                return new EasyAI(this);
-            }
-            case MEDIUM -> {
-                return new MediumAI(this);
-            }
-            case HARD -> {
-            	return new HardAI(this);
-            }
-            case HARDER -> {
-            	return new HarderAI(this);
-            }
-            default -> throw new AssertionError(aiDifficulty.name());
-            
-        }
+        if (aiDifficulty == AIDifficulty.EASY) {
+			return new EasyAI(this);
+		} else if (aiDifficulty == AIDifficulty.MEDIUM) {
+			return new MediumAI(this);
+		} else if (aiDifficulty == AIDifficulty.HARD) {
+			return new HardAI(this);
+		} else if (aiDifficulty == AIDifficulty.HARDER) {
+			return new HarderAI(this);
+		} else {
+			throw new AssertionError(aiDifficulty.name());
+		}
     }
 
     

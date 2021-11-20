@@ -65,7 +65,7 @@ public class AIHelper {
     }
     
     public static Card getRandomCard(List<Card> cards) {
-        return cards.get(random.nextInt(0, cards.size()));
+        return cards.get(random.nextInt(cards.size()));
     }
     
     private static CardValue findLowestValue(List<Card> cards) {

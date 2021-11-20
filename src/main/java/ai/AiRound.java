@@ -105,7 +105,7 @@ public class AiRound extends Round {
             return troefCompeters.get(0);
         } else {
             Random random = new Random();
-            int randomPlayerIndex = random.nextInt(0, troefCompeters.size());
+            int randomPlayerIndex = random.nextInt(troefCompeters.size());
             AbstractPlayer troefMaker = troefCompeters.get(randomPlayerIndex);
             return troefMaker;
         }
