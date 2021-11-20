@@ -1,5 +1,6 @@
 package ai;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -143,4 +144,57 @@ public class AIHelper {
         } 
         return Collections.min(eligibleCards);
     }
+
+	public static List<Card> getMatchingSuitCards(List<Card> toMatch, List<Card> matchWith) {
+		List<Card> matchingSuitCards = new ArrayList<>();
+		for (Card card : toMatch) {
+			if (matchWith.stream().anyMatch(m -> m.getSuit() == card.getSuit())) {
+				matchingSuitCards.add(card);
+			}
+		}
+		return matchingSuitCards;
+	}
+	
+	public static List<Card> getStandaloneCards(List<Card> cards) {
+		int numberOfSpades = 0;
+		int numberOfDiamonds = 0;
+		int numberOfClubs = 0;
+		int numberOfHearts = 0;
+		for (Card card : cards) {
+			Suit suit = card.getSuit();
+			switch(suit) {
+			case CLUBS:
+				numberOfClubs++;
+				break;
+			case DIAMONDS:
+				numberOfDiamonds++;
+				break;
+			case HEARTS:
+				numberOfHearts++;
+				break;
+			case SPADES:
+				numberOfSpades++;
+				break;
+			default:
+				break;
+			}
+		}
+		
+		List<Card> standaloneCards = new ArrayList<>();
+		if (numberOfSpades == 1) {
+			standaloneCards.add(getCardsOfSuit(cards, Suit.SPADES).get(0));
+		}
+		if (numberOfDiamonds == 1) {
+			standaloneCards.add(getCardsOfSuit(cards, Suit.DIAMONDS).get(0));
+		}
+		if (numberOfClubs == 1) {
+			standaloneCards.add(getCardsOfSuit(cards, Suit.CLUBS).get(0));
+		}
+		if (numberOfHearts == 1) {
+			standaloneCards.add(getCardsOfSuit(cards, Suit.HEARTS).get(0));
+		}
+		
+		return standaloneCards;
+	}
+	
 }

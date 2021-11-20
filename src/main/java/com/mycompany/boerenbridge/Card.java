@@ -25,7 +25,7 @@ public class Card implements Comparable<Card> {
     
     @Override
     public String toString() {
-    	return getValue().name() + " of " + getSuit().name();
+    	return getHumanReadableString();
     }
 
 	@Override
@@ -71,19 +71,19 @@ public class Card implements Comparable<Card> {
             return value;
 	}
         
-        public String getHumanReadableString(){
-            return suit.getNlNaam() + " "+ value.getNlNaam().toLowerCase();
+    public String getHumanReadableString(){
+        return suit.getNlNaam() + " "+ value.getNlNaam().toLowerCase();
+    }
+    
+    public ImageIcon getImage(){
+        if (this.image == null) {
+            StringBuilder builder = new StringBuilder();
+            builder.append('/');
+            builder.append(value.getId());
+            builder.append(suit.getId());
+            builder.append(".gif");
+            this.image =  new ImageIcon(getClass().getResource(builder.toString()));
         }
-        
-        public ImageIcon getImage(){
-            if (this.image == null) {
-                StringBuilder builder = new StringBuilder();
-                builder.append('/');
-                builder.append(value.getId());
-                builder.append(suit.getId());
-                builder.append(".gif");
-                this.image =  new ImageIcon(getClass().getResource(builder.toString()));
-            }
-            return this.image;
-        }
+        return this.image;
+    }
 }

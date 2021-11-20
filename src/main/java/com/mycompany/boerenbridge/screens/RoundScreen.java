@@ -4,14 +4,6 @@
  */
 package com.mycompany.boerenbridge.screens;
 
-import com.mycompany.boerenbridge.AbstractPlayer;
-import com.mycompany.boerenbridge.Card;
-import com.mycompany.boerenbridge.Game;
-import com.mycompany.boerenbridge.Hand;
-import com.mycompany.boerenbridge.RealPlayer;
-import com.mycompany.boerenbridge.RobotPlayer;
-import com.mycompany.boerenbridge.Round;
-import com.mycompany.boerenbridge.Suit;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -31,6 +23,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,6 +32,15 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
+
+import com.mycompany.boerenbridge.AbstractPlayer;
+import com.mycompany.boerenbridge.Card;
+import com.mycompany.boerenbridge.Game;
+import com.mycompany.boerenbridge.Hand;
+import com.mycompany.boerenbridge.RealPlayer;
+import com.mycompany.boerenbridge.RobotPlayer;
+import com.mycompany.boerenbridge.Round;
+import com.mycompany.boerenbridge.Suit;
 
 /**
  *
@@ -243,24 +245,38 @@ public class RoundScreen extends javax.swing.JFrame {
         bottomPlayerInfo.setBackground(Color.WHITE);
         switch (winner.getPosition()) {
             case LEFT:
-                increaseScore(leftPlayerInfo, winner);
                 leftPlayerInfo.setBackground(Color.green);
                 break;
             case TOP:
-                increaseScore(topPlayerInfo, winner);
                 topPlayerInfo.setBackground(Color.green);
                 break;
             case RIGHT:
-                increaseScore(rightPlayerInfo, winner);
                 rightPlayerInfo.setBackground(Color.green);
                 break;
             case BOTTOM:
-                increaseScore(bottomPlayerInfo, winner);
                 bottomPlayerInfo.setBackground(Color.green);
                 break;
             default:
                 throw new AssertionError("");
         }
+    }
+    private void increaseVisualScore(AbstractPlayer winner) {
+    	switch (winner.getPosition()) {
+    	case LEFT:
+    		increaseScore(leftPlayerInfo, winner);
+    		break;
+    	case TOP:
+    		increaseScore(topPlayerInfo, winner);
+    		break;
+    	case RIGHT:
+    		increaseScore(rightPlayerInfo, winner);
+    		break;
+    	case BOTTOM:
+    		increaseScore(bottomPlayerInfo, winner);
+    		break;
+    	default:
+    		throw new AssertionError("");
+    	}
     }
     
 
@@ -825,6 +841,7 @@ public class RoundScreen extends javax.swing.JFrame {
                 AbstractPlayer winningPlayer = currentHand.getWinningPlayer();
                 setBackgroundToGreen(winningPlayer);
                 round.increaseScoreFor(winningPlayer);
+                increaseVisualScore(winningPlayer);
                 if (round.hasNextHand()) {
                     currentHand = round.getNextHand();
                     currentHand.setFirstPlayer(winningPlayer);

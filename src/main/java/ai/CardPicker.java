@@ -12,8 +12,8 @@ import com.mycompany.boerenbridge.Round;
 
 public class CardPicker {
 
-	private final Round round;
-	private final RobotPlayer robot;
+	protected final Round round;
+	protected final RobotPlayer robot;
 
 	public CardPicker(Round round, RobotPlayer robot) {
 		this.round = round;
@@ -91,87 +91,7 @@ public class CardPicker {
 		return cardToWin;
 	}
 
-	public Card getCardToLoseHarder(Hand hand) {
-		Card firstCard = hand.getFirstCard();
-		List<Card> legalCardsToPlay = AIHelper.getLegalCardsToPlay(robot.getCards(), firstCard.getSuit());
-		
-		Card cardToLose;
-		if (AIHelper.containsCardOfSuit(legalCardsToPlay, firstCard.getSuit())) {
-			//We moeten bekennen
-			if (hand.getCurrentlyWinningCard().getSuit() == round.getTroef()) {
-				// De huidig winnende kaart is een troef
-				if (firstCard.getSuit() == round.getTroef()) {
-					// De eerste kaart is een troef
-					Card highestCardMatchingSuitLowerThan = AIHelper.getHighestCardMatchingSuitLowerThan(legalCardsToPlay, hand.getCurrentlyWinningCard());
-					if (highestCardMatchingSuitLowerThan != null) {
-						// We kunnen een kaart zo dicht mogelijk onder de huidig winnende kaart spelen
-						cardToLose = highestCardMatchingSuitLowerThan;
-					} else {
-						// We kunnen niet een kaart zo dicht mogelijk onder de huidig winnende kaart spelen
-						//Gooi een kaart zo dicht mogelijk boven de huidig winnende kaart
-						cardToLose = AIHelper.getLowestCardMatchingSuitHigherThan(legalCardsToPlay, hand.getCurrentlyWinningCard());
-					}
-				} else {
-					// De eerste kaart is geen troef
-					//Gooi de hoogste mogelijke bekennende kaart
-					cardToLose = AIHelper.getHighestCardOfSuit(legalCardsToPlay, firstCard.getSuit());
-				}
-			} else {
-				// De huidig winnende kaart is geen troef
-				Card highestCardMatchingSuitLowerThan = AIHelper.getHighestCardMatchingSuitLowerThan(legalCardsToPlay, hand.getCurrentlyWinningCard());
-				if (highestCardMatchingSuitLowerThan != null) {
-					// We kunnen onder de huidig winnende kaart blijven
-					//Gooi de kaart zo dicht mogelijk onder de huidig winnende kaart
-					cardToLose = highestCardMatchingSuitLowerThan;
-				} else {
-					// We kunnen niet onder de huidig winnende kaart blijven
-					//Gooi de kaart zo dicht mogelijk boven de huidig winnende kaart
-					cardToLose = AIHelper.getLowestCardMatchingSuitHigherThan(legalCardsToPlay, hand.getCurrentlyWinningCard());
-				}
-			}
-		} else {
-			//We kunnen niet bekennen
-			if (AIHelper.containsCardOfSuit(hand.getPlayedCards(), round.getTroef())) {
-				// Er is troef gegooid
-				Card highestCardMatchingSuitLowerThan = AIHelper.getHighestCardMatchingSuitLowerThan(legalCardsToPlay, hand.getCurrentlyWinningCard());
-				if (highestCardMatchingSuitLowerThan != null) {
-					// Wij hebben een troef die lager is dan de huidig winnende troef
-					// Gooi de troef die zo dicht mogelijk onder de huidig winnende troef zit
-					cardToLose = highestCardMatchingSuitLowerThan;
-				} else {
-					// Wij hebben geen troef die lager is dan de huidig winnende troef
-					if (AIHelper.getCardsOfSuit(legalCardsToPlay, round.getTroef()).size() == legalCardsToPlay.size()) {
-						// We mogen alleen troef spelen
-						//Gooi de laagste troef
-						cardToLose = AIHelper.getLowestCardOfSuit(legalCardsToPlay, round.getTroef());
-					} else {
-						// We hoeven niet alleen troef te spelen
-						// We gooien een zo hoog mogelijke niet troef kaart
-						List<Card> nonTroefs = AIHelper.getCardsNotOfSuit(legalCardsToPlay, round.getTroef());
-						List<Card> highestNonTroefs = AIHelper.getHighestCards(nonTroefs);
-						cardToLose = AIHelper.getRandomCard(highestNonTroefs);
-					}
-				}
-				
-			} else {
-				// Er is geen troef gegooid
-				if (AIHelper.getCardsOfSuit(legalCardsToPlay, round.getTroef()).size() == legalCardsToPlay.size()) {
-					// We mogen alleen troef spelen
-					//Gooi de laagste troef
-					cardToLose = AIHelper.getLowestCardOfSuit(legalCardsToPlay, round.getTroef());
-				} else {
-					// We hoeven niet alleen troef te spelen
-					// We gooien een zo hoog mogelijke niet troef kaart
-					List<Card> nonTroefs = AIHelper.getCardsNotOfSuit(legalCardsToPlay, round.getTroef());
-					List<Card> highestNonTroefs = AIHelper.getHighestCards(nonTroefs);
-					cardToLose = AIHelper.getRandomCard(highestNonTroefs);
-				}
-			}
-		}
-				
-		return cardToLose;
-		
-	}
+	
 	public Card getCardToLose(Hand hand) {
 		Card firstCard = hand.getFirstCard();
 		List<Card> legalCardsToPlay = AIHelper.getLegalCardsToPlay(robot.getCards(), firstCard.getSuit());
@@ -220,7 +140,7 @@ public class CardPicker {
         return startingCard;
     }
 
-	private Card getLowestCardToDump(List<Card> cards) {
+	protected Card getLowestCardToDump(List<Card> cards) {
 		List<Card> lowestCards = AIHelper.getLowestCards(cards);
 		List<Card> lowestNonTroefCards = lowestCards.stream().filter(card -> card.getSuit() != round.getTroef())
 				.collect(Collectors.toList());

@@ -40,15 +40,20 @@ public class HarderAI implements RobotAI {
 		
 		current += getNumberOfCertainWinCards();
 		
+		Card pickedCard;
 		if (hand.getFirstCard() == null) {
-			return new CardPicker(round, robot).getStartingCard(guessed, current);
+			pickedCard = new HarderCardPicker(round, robot, markedCards).getStartingCard(guessed, current);
+			this.markedCards.remove(pickedCard);
+			return pickedCard;
 		}
 
 		if (guessed > current) {
-			return new CardPicker(round, robot).getCardToWin(hand, this.markedCards);
+			pickedCard = new CardPicker(round, robot).getCardToWin(hand, this.markedCards);
 		} else {
-			return new CardPicker(round, robot).getCardToLoseHarder(hand);
+			pickedCard = new HarderCardPicker(round, robot, markedCards).getCardToLose(hand);
 		}
+		this.markedCards.remove(pickedCard);
+		return pickedCard;
 	}
 
 	private int getNumberOfCertainWinCards() {

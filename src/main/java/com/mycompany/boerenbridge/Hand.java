@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -162,5 +163,8 @@ public class Hand {
         return this.playersInOrder;
     }
     
-    
+    @Override
+    public String toString() {
+    	return this.playedCardsByPlayer.keySet().stream().map(Card::toString).collect(Collectors.joining("-"));
+    }
 }
