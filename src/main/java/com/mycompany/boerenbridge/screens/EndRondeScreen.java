@@ -70,6 +70,7 @@ public class EndRondeScreen extends javax.swing.JFrame {
         tableModel.addRow(totalScoreArray);
 
         jTable1.setModel(tableModel);
+        jTable1.scrollRectToVisible(jTable1.getCellRect(jTable1.getRowCount(), 0, true));
     }
     
 

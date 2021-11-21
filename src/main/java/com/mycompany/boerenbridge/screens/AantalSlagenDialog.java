@@ -129,7 +129,9 @@ public class AantalSlagenDialog extends javax.swing.JDialog {
                 round.getRondeScreen().createTroefChooser();
             }
         }
-        round.getRondeScreen().doRobotSlagenGuesses(round.getRobotsAfterPlayer());
+        if (!round.getRobotsAfterPlayer().isEmpty()) {
+        	round.getRondeScreen().doRobotSlagenGuesses(round.getRobotsAfterPlayer());
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
