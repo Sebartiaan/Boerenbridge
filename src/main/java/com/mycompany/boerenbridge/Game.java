@@ -37,10 +37,10 @@ public class Game {
     }
 
     private void createRounds() {
-        int numberOfCardsCounter = 13;
+        int numberOfCardsCounter = 3;
         int firstPlayerCounter = 0;
         boolean reached2 = false;
-        for (int i = 0 ; i<23 ; i++) {
+        for (int i = 0 ; i<3 ; i++) {
             final Round round = new Round(numberOfCardsCounter, i+1, getPlayers().get(firstPlayerCounter));
             rounds.add(round);
             firstPlayerCounter++;
