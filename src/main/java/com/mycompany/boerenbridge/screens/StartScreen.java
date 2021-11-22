@@ -19,6 +19,8 @@ import javax.swing.JRadioButton;
  * @author b.smeets
  */
 public class StartScreen extends javax.swing.JFrame {
+    
+    private static int counter = 0;
 
     private String playerName;
     List<JRadioButton> radioButtons = new ArrayList<>();
@@ -192,26 +194,47 @@ public class StartScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_playButtonActionPerformed
 
     private void easyButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_easyButtonItemStateChanged
+        if (counter == 0) {
+            easyButton.setSelected(true);
+        }
+        counter++;
+        
         if (easyButton.isSelected()) {
             deselectAllExcept(easyButton);
+            counter = 0;
         }
     }//GEN-LAST:event_easyButtonItemStateChanged
 
     private void mediumButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mediumButtonItemStateChanged
+        if (counter == 0) {
+            mediumButton.setSelected(true);
+        }
+        counter++;
         if (mediumButton.isSelected()) {
             deselectAllExcept(mediumButton);
+            counter = 0;
         }
     }//GEN-LAST:event_mediumButtonItemStateChanged
 
     private void hardButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hardButtonItemStateChanged
+        if (counter == 0) {
+            hardButton.setSelected(true);
+        }
+        counter++;
         if (hardButton.isSelected()) {
             deselectAllExcept(hardButton);
+            counter = 0;
         }
     }//GEN-LAST:event_hardButtonItemStateChanged
 
     private void harderButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_harderButtonItemStateChanged
+        if (counter == 0){
+            harderButton.setSelected(true);
+        } 
+        counter++;
         if (harderButton.isSelected()) {
             deselectAllExcept(harderButton);
+            counter = 0;
         }
     }//GEN-LAST:event_harderButtonItemStateChanged
 
