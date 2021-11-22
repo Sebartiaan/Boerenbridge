@@ -10,15 +10,12 @@ import com.mycompany.boerenbridge.RobotPlayer;
 import com.mycompany.boerenbridge.Round;
 import com.mycompany.boerenbridge.Suit;
 
-import ai.TroefMaker.SuitWithValue;
-
 public class HarderAI implements RobotAI {
 	
 	
 	private Round round;
 	private final RobotPlayer robot;
 	private List<Card> markedCards = new ArrayList<>();
-	private SuitWithValue suitWithValue;
 
 	public HarderAI(RobotPlayer robot) {
 		this.robot = robot;
@@ -28,8 +25,7 @@ public class HarderAI implements RobotAI {
 	public int guessSlagen(Round round) {
 		this.round = round;
 		this.markedCards.clear();
-		this.suitWithValue = new TroefMaker(robot).findSuitWithBestValue();
-		return new HarderSlagenGuesser(robot, round, suitWithValue).getAmountOfSlagenBasedOnCardValues(this.markedCards);
+		return new HarderSlagenGuesser(robot, round).getAmountOfSlagenBasedOnCardValues(this.markedCards);
 		
 	}
 
@@ -91,7 +87,6 @@ public class HarderAI implements RobotAI {
 
 	@Override
 	public Suit maakTroef() {
-		return this.suitWithValue.getSuit();
-
+		return new TroefMaker(robot).findSuitWithBestValue().getSuit();
 	}
 }

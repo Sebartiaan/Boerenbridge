@@ -16,7 +16,7 @@ import ai.RobotAI;
  */
 public class RobotPlayer extends AbstractPlayer {
 
-    private final RobotAI robotAi;
+    private RobotAI robotAi;
 
     public RobotPlayer(String name, Position position) {
         super(name, position);
@@ -41,7 +41,11 @@ public class RobotPlayer extends AbstractPlayer {
 
     private RobotAI getAiDifficulty() {
         AIDifficulty aiDifficulty = Game.getSingleton().getAIDifficulty();
-        if (aiDifficulty == AIDifficulty.EASY) {
+        return determineAIDifficulty(aiDifficulty);
+    }
+
+	private RobotAI determineAIDifficulty(AIDifficulty aiDifficulty) throws AssertionError {
+		if (aiDifficulty == AIDifficulty.EASY) {
 			return new EasyAI(this);
 		} else if (aiDifficulty == AIDifficulty.MEDIUM) {
 			return new MediumAI(this);
@@ -49,9 +53,11 @@ public class RobotPlayer extends AbstractPlayer {
 			return new HardAI(this);
 		} else if (aiDifficulty == AIDifficulty.HARDER) {
 			return new HarderAI(this);
-		} else {
-			throw new AssertionError(aiDifficulty.name());
-		}
+		} return null;
+	}
+    
+    public void setAIDifficulty(AIDifficulty difficulty) {
+    	this.robotAi = determineAIDifficulty(difficulty);
     }
 
     
