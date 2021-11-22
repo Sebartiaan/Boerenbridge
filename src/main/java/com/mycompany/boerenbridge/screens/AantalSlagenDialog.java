@@ -127,10 +127,12 @@ public class AantalSlagenDialog extends javax.swing.JDialog {
             }
             if (round.getTroefMaker() instanceof RealPlayer) {
                 round.getRondeScreen().createTroefChooser();
+            } else {
+                round.getRondeScreen().createRobotMakesTroefDialog();
             }
         }
         if (!round.getRobotsAfterPlayer().isEmpty()) {
-        	round.getRondeScreen().doRobotSlagenGuesses(round.getRobotsAfterPlayer());
+            round.getRondeScreen().doRobotSlagenGuesses(round.getRobotsAfterPlayer());
         }
     }
 
