@@ -51,6 +51,37 @@ public class TroefMaker {
 			return new SuitWithValue(bestSuits.get(new Random().nextInt(bestSuits.size())), max);
 		}
 	}
+	public SuitWithValue findSuitWithWorstValue() {
+		Map<Suit, Integer> suitValues = new EnumMap<>(Suit.class);
+		for (Suit suit : Suit.values()) {
+			suitValues.put(suit, 0);
+		}
+		
+		for (Card card : robot.getCards()) {
+			var suit = card.getSuit();
+			var integer = suitValues.get(suit);
+			if (integer == null) {
+				integer = 0;
+			} 
+			integer += card.getValue().getValue();
+			suitValues.put(suit, integer);
+		}
+		
+		Integer min = Collections.min(suitValues.values());
+		
+		List<Suit> bestSuits = new ArrayList<>();
+		for (Entry<Suit, Integer> entry : suitValues.entrySet()) {
+			if (entry.getValue().equals(min)) {
+				bestSuits.add(entry.getKey());
+			}
+		}
+		
+		if (bestSuits.size() == 1) {
+			return new SuitWithValue(bestSuits.get(0), min);
+		} else {
+			return new SuitWithValue(bestSuits.get(new Random().nextInt(bestSuits.size())), min);
+		}
+	}
 	
 	public Suit findMostCommonSuit() {
 		Optional<Suit> optional = robot.getCards().stream()

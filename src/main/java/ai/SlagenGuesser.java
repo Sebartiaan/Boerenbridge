@@ -1,5 +1,6 @@
 package ai;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -22,8 +23,8 @@ public class SlagenGuesser {
 		this.round = round;
 	}
 
-	public int getAmountOfSlagenBasedOnCardValues(List<Card> markedCards) {
-		int wantedPrediction = findInterestingCards(markedCards);
+	public int getAmountOfSlagenBasedOnCardValues() {
+		int wantedPrediction = findInterestingCards().size();
 
 		int notAllowedGuess = round.getNotAllowedGuess();
 		if (notAllowedGuess == -1) {
@@ -49,9 +50,10 @@ public class SlagenGuesser {
 		}
 	}
 
-	protected int findInterestingCards(List<Card> markedCards) {
+	protected List<Card> findInterestingCards() {
 		List<CardValue> interestingCards = getInterestingHighValueCards();
 		List<Card> cards = robot.getCards();
+		List<Card> markedCards = new ArrayList<>();
 
 		for (Card card : cards) {
 			for (CardValue interestingCard : interestingCards) {
@@ -62,8 +64,7 @@ public class SlagenGuesser {
 			}
 		}
 
-		int wantedPrediction = markedCards.size();
-		return wantedPrediction;
+		return markedCards;
 	}
 
 	protected List<CardValue> getInterestingHighValueCards() {
@@ -109,6 +110,10 @@ public class SlagenGuesser {
 			this.random = new Random();
 		}
 		return this.random;
+	}
+	
+	public List<Card> getMarkedCards() {
+		return findInterestingCards();
 	}
 
 }

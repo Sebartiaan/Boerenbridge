@@ -10,31 +10,21 @@ import com.mycompany.boerenbridge.Round;
 
 public class HarderCardPicker extends CardPicker {
 
-	private List<Card> markedCards;
-
-	public HarderCardPicker(Round round, RobotPlayer robot, List<Card> markedCards) {
+	public HarderCardPicker(Round round, RobotPlayer robot) {
 		super(round, robot);
-		this.markedCards = markedCards;
 	}
 	
 	@Override
 	public Card getStartingCard(int guessed, int current) {
+		List<Card> markedCards = new HarderSlagenGuesser(robot, round).getMarkedCards();
 		Card startingCard;
         List<Card> cards = robot.getCards();
         if (guessed > current) {
-        	//Zitten we in ronde 4 of lager
-        	if (round.getNumberOfCards() < 5) {
-        		if (!this.markedCards.isEmpty()) {
-        			//We hebben gemarkeerde kaarten
-        			//Gooi de hoogst gemarkeerde kaart
-        			return AIHelper.getRandomCard(AIHelper.getHighestCards(markedCards));
-        		} 
-        	}
     		// Hebben we een aas
     		List<Card> aces = AIHelper.getCardsOfValue(cards, CardValue.ACE);
     		List<Card> nonTroefAces = AIHelper.getCardsNotOfSuit(aces, round.getTroef());
     		if (nonTroefAces.isEmpty()) {
-    			startingCard = getSmartStartCard(cards);
+    			startingCard = getSmartStartCard(cards, markedCards);
     		} else {
     			startingCard = AIHelper.getRandomCard(nonTroefAces);
     		}
@@ -44,7 +34,7 @@ public class HarderCardPicker extends CardPicker {
         return startingCard;
 	}
 	
-	private Card getSmartStartCard(List<Card> cards) {
+	private Card getSmartStartCard(List<Card> cards, List<Card> markedCards) {
 		Card startCard;
 		List<Card> lowCards = AIHelper.getCardsOfValueLessThan(cards, CardValue.NINE);
 		if (!lowCards.isEmpty()) {

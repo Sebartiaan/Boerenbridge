@@ -18,16 +18,14 @@ public class HarderSlagenGuesser extends SlagenGuesser {
 	}
 	
 	@Override
-	protected int findInterestingCards(List<Card> markedCards) {
+	protected List<Card> findInterestingCards() {
 		int guessedUntilNow = getRound().getSlagen().values().stream().filter(Objects::nonNull).mapToInt(Integer::intValue).sum();
 		
 		//Als er al veel slagen gegokt zijn, bekijk dan alleen de azen
 		if (guessedUntilNow >= getRound().getNumberOfCards()) {
 			onlyHighCards = true;
 		}
-		int amountOfInterestingCards = super.findInterestingCards(markedCards);
-		
-		return amountOfInterestingCards;
+		return super.findInterestingCards();
 	}
 	
 	@Override
@@ -37,5 +35,4 @@ public class HarderSlagenGuesser extends SlagenGuesser {
 		} 
 		return Arrays.asList(CardValue.ACE, CardValue.KING, CardValue.QUEEN);
 	}
-
 }

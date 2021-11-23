@@ -20,7 +20,9 @@ public class CardPicker {
 		this.robot = robot;
 	}
 
-	public Card getCardToWin(Hand hand, List<Card> markedCards) {
+	public Card getCardToWin(Hand hand) {
+		List<Card> markedCards = new HarderSlagenGuesser(robot, round).getMarkedCards();
+		
 		Card firstCard = hand.getFirstCard();
 		Card currentlyWinningCard = hand.getCurrentlyWinningCard();
 		

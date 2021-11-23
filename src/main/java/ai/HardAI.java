@@ -20,10 +20,9 @@ public class HardAI implements RobotAI {
 	}
 
 	@Override
-	public int guessSlagen(Round round) {
-		this.round = round;
+	public int guessSlagen() {
 		this.markedCards.clear();
-		return new SlagenGuesser(robot, round).getAmountOfSlagenBasedOnCardValues(this.markedCards);
+		return new SlagenGuesser(robot, round).getAmountOfSlagenBasedOnCardValues();
 	}
 
 	@Override
@@ -36,7 +35,7 @@ public class HardAI implements RobotAI {
 		}
 
 		if (guessed > current) {
-			return new CardPicker(round, robot).getCardToWin(hand, markedCards);
+			return new CardPicker(round, robot).getCardToWin(hand);
 		} else {
 			return new CardPicker(round, robot).getCardToLose(hand);
 		}
@@ -47,4 +46,8 @@ public class HardAI implements RobotAI {
 		return new TroefMaker(robot).findSuitWithBestValue().getSuit();
 	}
 
+	@Override
+	public void setRound(Round round) {
+		this.round = round;
+	}
 }

@@ -4,13 +4,12 @@
  */
 package ai;
 
-import com.mycompany.boerenbridge.AbstractPlayer;
-import com.mycompany.boerenbridge.Game;
-import com.mycompany.boerenbridge.Position;
-import com.mycompany.boerenbridge.RobotPlayer;
-import com.mycompany.boerenbridge.Round;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mycompany.boerenbridge.AbstractPlayer;
+import com.mycompany.boerenbridge.Game;
+import com.mycompany.boerenbridge.Round;
 
 
 /**
@@ -20,7 +19,7 @@ import java.util.List;
 public class AiTest {
     
     private static AiRound nextRound;
-    public static final int aantal = 6000;
+    public static final int aantal = 3000;
     
    public static void main(String[] args) {
        

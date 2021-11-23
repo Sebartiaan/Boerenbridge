@@ -23,7 +23,7 @@ public class HardeSlagenGuesserTest extends AITest {
 		cardsInHand.add(new Card(Suit.DIAMONDS, CardValue.ACE));
 		RobotPlayer mockRobot = getMockedRobot(cardsInHand);
 		Round mockRound = getMockedRound(cardsInHand);
-		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues(new ArrayList<>());
+		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues();
 		Assertions.assertEquals(amountOfSlagenBasedOnCardValues, 2);
 	}
 	
@@ -34,7 +34,7 @@ public class HardeSlagenGuesserTest extends AITest {
 		cardsInHand.add(new Card(Suit.DIAMONDS, CardValue.JACK));
 		RobotPlayer mockRobot = getMockedRobot(cardsInHand);
 		Round mockRound = getMockedRound(cardsInHand);
-		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues(new ArrayList<>());
+		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues();
 		Assertions.assertEquals(amountOfSlagenBasedOnCardValues, 2);
 	}
 	
@@ -45,7 +45,7 @@ public class HardeSlagenGuesserTest extends AITest {
 		cardsInHand.add(new Card(Suit.CLUBS, CardValue.FIVE));
 		RobotPlayer mockRobot = getMockedRobot(cardsInHand);
 		Round mockRound = getMockedRound(cardsInHand);
-		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues(new ArrayList<>());
+		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues();
 		Assertions.assertEquals(amountOfSlagenBasedOnCardValues, 2);
 	}
 	
@@ -67,7 +67,7 @@ public class HardeSlagenGuesserTest extends AITest {
 		cardsInHand.add(new Card(Suit.CLUBS, CardValue.TWO));
 		RobotPlayer mockRobot = getMockedRobot(cardsInHand);
 		Round mockRound = getMockedRound(cardsInHand);
-		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues(new ArrayList<>());
+		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues();
 		Assertions.assertEquals(amountOfSlagenBasedOnCardValues, 13);
 	}
 

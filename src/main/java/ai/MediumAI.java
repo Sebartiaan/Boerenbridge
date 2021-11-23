@@ -4,8 +4,6 @@
  */
 package ai;
 
-import java.util.Collections;
-
 import com.mycompany.boerenbridge.Card;
 import com.mycompany.boerenbridge.Hand;
 import com.mycompany.boerenbridge.RobotPlayer;
@@ -28,8 +26,7 @@ public class MediumAI implements RobotAI {
     }
 
     @Override
-    public int guessSlagen(Round round) {
-        this.round = round;
+    public int guessSlagen() {
         return new SlagenGuesser(robot, round).getAverageAmountOfSlagen();
     }
 
@@ -43,7 +40,7 @@ public class MediumAI implements RobotAI {
         }
         
         if (guessed > current) {
-        	return getCardPicker().getCardToWin(hand, Collections.emptyList());
+        	return getCardPicker().getCardToWin(hand);
         } else {
             return getCardPicker().getCardToLose(hand);
         }
@@ -61,5 +58,10 @@ public class MediumAI implements RobotAI {
     	}
     	return this.cardPicker;
     }
+
+    @Override
+	public void setRound(Round round) {
+		this.round = round;
+	}
     
 }

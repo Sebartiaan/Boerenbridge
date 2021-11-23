@@ -16,11 +16,10 @@ import com.mycompany.boerenbridge.Suit;
 public interface RobotAI {
     
     /**
-     * Should return a legal amount of slagen for the given round
-     * @param round
+     * Should return a legal amount of slagen for the current round
      * @return 
      */
-    int guessSlagen(Round round);
+    int guessSlagen();
     
     /**
      * Should return the card to be played. Can be random, but if it always determines the same card, it should be a legal one
@@ -32,5 +31,11 @@ public interface RobotAI {
      * Return the troef for the current round. No restrictions 
      */
     Suit maakTroef();
+    
+    /**
+     * Sets the current round
+     * @param round
+     */
+    void setRound(Round round);
     
 }

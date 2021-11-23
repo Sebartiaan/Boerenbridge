@@ -22,13 +22,14 @@ import java.util.Random;
 public class EasyAI implements RobotAI{
 
     private final RobotPlayer robot;
+	private Round round;
 
     public EasyAI(RobotPlayer robot) {
         this.robot = robot;
     }
     
     @Override
-    public int guessSlagen(Round round) {
+    public int guessSlagen() {
     	return new SlagenGuesser(robot, round).getAverageAmountOfSlagen();
     }
 
@@ -48,4 +49,9 @@ public class EasyAI implements RobotAI{
     public Suit maakTroef() {
     	return new TroefMaker(robot).findMostCommonSuit();
     }
+    
+    @Override
+	public void setRound(Round round) {
+		this.round = round;
+	}
 }

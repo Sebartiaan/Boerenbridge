@@ -24,7 +24,8 @@ public class RobotPlayer extends AbstractPlayer {
     }
 
     public int guessSlagen(Round round) {
-        return this.robotAi.guessSlagen(round);
+    	this.robotAi.setRound(round);
+        return this.robotAi.guessSlagen();
     }
     
     public RobotAI getAI(){
