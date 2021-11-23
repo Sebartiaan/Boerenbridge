@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -154,11 +155,15 @@ public class EndRondeScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void nextRoundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextRoundButtonActionPerformed
-        this.dispose();
         if (this.nextRound != null) {
             nextRound.showRondeScreen();
+            this.dispose();
+        } else {
+            int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Weet u zeker dat u het spel wil sluiten?");
+            if (showConfirmDialog == JOptionPane.YES_OPTION) {
+                this.dispose();
+            }
         }
-        
     }//GEN-LAST:event_nextRoundButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

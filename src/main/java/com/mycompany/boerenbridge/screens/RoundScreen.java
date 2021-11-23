@@ -168,13 +168,17 @@ public class RoundScreen extends javax.swing.JFrame {
         }
         
         if (round.getTroefMaker() instanceof RobotPlayer) {
-            RobotPlayer robot = (RobotPlayer)round.getTroefMaker();
-            Suit troef = robot.maakTroef();
-            round.setTroef(troef);
-            JOptionPane.showMessageDialog(this, robot.getName() + " maakt " + round.getTroef().getNlNaam().toLowerCase() + " troef!");
+            createRobotMakesTroefDialog();
         } else if (round.getTroefMaker() instanceof RealPlayer) {
             round.getRondeScreen().createTroefChooser();
         }
+    }
+
+    public void createRobotMakesTroefDialog() throws HeadlessException {
+        RobotPlayer robot = (RobotPlayer)round.getTroefMaker();
+        Suit troef = robot.maakTroef();
+        round.setTroef(troef);
+        JOptionPane.showMessageDialog(this, robot.getName() + " maakt " + round.getTroef().getNlNaam().toLowerCase() + " troef!");
     }
 
     public void createTroefChooser() {
