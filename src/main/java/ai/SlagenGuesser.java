@@ -51,7 +51,7 @@ public class SlagenGuesser {
 	}
 
 	protected List<Card> findInterestingCards() {
-		List<CardValue> interestingCards = getInterestingHighValueCards();
+		List<CardValue> interestingCards = getInterestingHighCardValues();
 		List<Card> cards = robot.getCards();
 		List<Card> markedCards = new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class SlagenGuesser {
 		return markedCards;
 	}
 
-	protected List<CardValue> getInterestingHighValueCards() {
+	protected List<CardValue> getInterestingHighCardValues() {
 		return Arrays.asList(CardValue.ACE, CardValue.KING, CardValue.QUEEN);
 	}
 

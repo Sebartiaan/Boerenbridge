@@ -69,17 +69,17 @@ public class TroefMaker {
 		
 		Integer min = Collections.min(suitValues.values());
 		
-		List<Suit> bestSuits = new ArrayList<>();
+		List<Suit> worstSuits = new ArrayList<>();
 		for (Entry<Suit, Integer> entry : suitValues.entrySet()) {
 			if (entry.getValue().equals(min)) {
-				bestSuits.add(entry.getKey());
+				worstSuits.add(entry.getKey());
 			}
 		}
 		
-		if (bestSuits.size() == 1) {
-			return new SuitWithValue(bestSuits.get(0), min);
+		if (worstSuits.size() == 1) {
+			return new SuitWithValue(worstSuits.get(0), min);
 		} else {
-			return new SuitWithValue(bestSuits.get(new Random().nextInt(bestSuits.size())), min);
+			return new SuitWithValue(worstSuits.get(new Random().nextInt(worstSuits.size())), min);
 		}
 	}
 	

@@ -24,29 +24,30 @@ public class HardeSlagenGuesserTest extends AITest {
 		RobotPlayer mockRobot = getMockedRobot(cardsInHand);
 		Round mockRound = getMockedRound(cardsInHand);
 		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues();
-		Assertions.assertEquals(amountOfSlagenBasedOnCardValues, 2);
+		Assertions.assertEquals(2, amountOfSlagenBasedOnCardValues);
 	}
 	
 	@Test
 	public void scenario2Test() {
 		List<Card> cardsInHand = new ArrayList<>();
 		cardsInHand.add(new Card(Suit.CLUBS, CardValue.ACE));
-		cardsInHand.add(new Card(Suit.DIAMONDS, CardValue.JACK));
+		cardsInHand.add(new Card(Suit.CLUBS, CardValue.JACK));
 		RobotPlayer mockRobot = getMockedRobot(cardsInHand);
 		Round mockRound = getMockedRound(cardsInHand);
 		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues();
-		Assertions.assertEquals(amountOfSlagenBasedOnCardValues, 2);
+		Assertions.assertEquals(2, amountOfSlagenBasedOnCardValues);
 	}
 	
 	@Test
 	public void scenario3Test() {
 		List<Card> cardsInHand = new ArrayList<>();
-		cardsInHand.add(new Card(Suit.CLUBS, CardValue.ACE));
-		cardsInHand.add(new Card(Suit.CLUBS, CardValue.FIVE));
+		cardsInHand.add(new Card(Suit.CLUBS, CardValue.KING));
+		
+		cardsInHand.add(new Card(Suit.CLUBS, CardValue.QUEEN));
 		RobotPlayer mockRobot = getMockedRobot(cardsInHand);
 		Round mockRound = getMockedRound(cardsInHand);
 		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues();
-		Assertions.assertEquals(amountOfSlagenBasedOnCardValues, 2);
+		Assertions.assertEquals(2, amountOfSlagenBasedOnCardValues);
 	}
 	
 	@Test
@@ -68,7 +69,7 @@ public class HardeSlagenGuesserTest extends AITest {
 		RobotPlayer mockRobot = getMockedRobot(cardsInHand);
 		Round mockRound = getMockedRound(cardsInHand);
 		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues();
-		Assertions.assertEquals(amountOfSlagenBasedOnCardValues, 13);
+		Assertions.assertEquals(13, amountOfSlagenBasedOnCardValues);
 	}
 
 }
