@@ -319,6 +319,8 @@ public class RoundScreen extends javax.swing.JFrame {
                         userInputAllowed = true;
                         if (currentHand.getWinningPlayer() != null) {
                             handleWinningPlayer();
+                        } else {
+                        	highlightLegalCards();
                         }
                     }
                     i++;
@@ -328,13 +330,39 @@ public class RoundScreen extends javax.swing.JFrame {
             t.start();
         } else {
             userInputAllowed = true;
+            
+            
             if (currentHand.getWinningPlayer() != null) {
                 handleWinningPlayer();
+            } else {
+            	highlightLegalCards();
             }
         }
     }
 
-    private void drawCard(Card card, AbstractPlayer player) {
+    private void highlightLegalCards() {
+    	RealPlayer realPlayer = game.getRealPlayer();
+    	List<Card> legalCards = new ArrayList<>();
+    	for (Card card : realPlayer.getCards()) {
+    		if (currentHand.isLegal(card, realPlayer)) {
+    			legalCards.add(card);
+    		}
+    	}
+    	
+    	for (Entry<JButton, Card> entry : cardButtons.entrySet()) {
+    		JButton button = entry.getKey();
+    		Card card = entry.getValue();
+    		if (legalCards.contains(card)) {
+    			button.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+    		}
+    	}
+	}
+    
+    private void removeHighlightedCards() {
+    	cardButtons.keySet().forEach(button -> button.setBorder(null));
+    }
+
+	private void drawCard(Card card, AbstractPlayer player) {
         switch (player.getPosition()) {
             case LEFT:
                 leftCard.setIcon(card.getImage());
@@ -385,6 +413,7 @@ public class RoundScreen extends javax.swing.JFrame {
                     centerCards();
                     final List<RobotPlayer> robotsAfterPlayer = currentHand.getRobotsAfterPlayer();
                     robotsPickCards(robotsAfterPlayer);
+                    removeHighlightedCards();
                 } else {
                     Card firstCard = currentHand.getFirstCard();
                     JOptionPane.showMessageDialog(this, card.getHumanReadableString() + " mag niet gespeeld worden omdat je nog " + firstCard.getSuit().getNlNaam().toLowerCase() + " hebt");
