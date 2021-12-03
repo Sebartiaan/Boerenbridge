@@ -8,7 +8,9 @@ import ai.AIDifficulty;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -17,6 +19,9 @@ import java.util.List;
 public class Game {
     
     public static final int NUMBER_OF_PLAYERS = 4;
+    
+    private static Map<Integer, Integer> roundGuessMap = new HashMap<>();
+    private static Map<Integer, Integer> roundActualMap = new HashMap<>();
     
     Deque<Round> rounds = new ArrayDeque<>();
     
@@ -147,4 +152,11 @@ public class Game {
         return this.winners;
     }
     
+    public static Map<Integer, Integer> getRoundGuessMap() {
+    	return roundGuessMap;
+    }
+    
+    public static Map<Integer, Integer> getRoundActualMap() {
+    	return roundActualMap;
+    }
 }

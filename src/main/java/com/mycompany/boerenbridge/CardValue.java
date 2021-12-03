@@ -48,11 +48,11 @@ public enum CardValue {
         return this.nlNaam;
     }
 
-    public static CardValue create(char id) {
-            Optional<CardValue> matchingValue = Stream.of(CardValue.values()).filter(suit -> suit.getId() == id).findFirst();
+    public static CardValue create(int value) {
+            Optional<CardValue> matchingValue = Stream.of(CardValue.values()).filter(suit -> suit.getValue() == value).findFirst();
             if (matchingValue.isPresent()) {
                     return matchingValue.get();
             }
-            throw new IllegalArgumentException("There is no value with id " + id);
+            throw new IllegalArgumentException("There is no value with value " + value);
     }
 }

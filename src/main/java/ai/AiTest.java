@@ -6,6 +6,8 @@ package ai;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.mycompany.boerenbridge.AbstractPlayer;
 import com.mycompany.boerenbridge.Game;
@@ -39,6 +41,7 @@ public class AiTest {
 //            
             createAIRounds(game);
             nextRound = (AiRound) game.getNextRound();
+            
             do {
                 nextRound.startRoundUnitTest();
 //                System.out.println("Cards:  " + nextRound.getNumberOfCards() + "   Gegokt: " + nextRound.getSlagen().values().stream().mapToInt(Integer::valueOf).sum());
@@ -49,6 +52,7 @@ public class AiTest {
             List<AbstractPlayer> players = game.getPlayers();
             for (AbstractPlayer player : players) {
                 dataset.add(player.getScore());
+                
 //                if (player.getPosition() == Position.BOTTOM || player.getPosition() == Position.LEFT) {
 //                	easy.add(player.getScore());
 //                } else {
@@ -60,13 +64,33 @@ public class AiTest {
         }
         
         int sum = dataset.stream().mapToInt(Integer::intValue).sum();
-        int mean = sum/dataset.size();
+        double mean = (double)sum/dataset.size();
 //        int sum2 = hard.stream().mapToInt(Integer::intValue).sum();
 //        int mean2 = sum2/hard.size();
         
-        int sumOfAllFears = dataset.stream().mapToInt(value -> (value - mean)*(value - mean)).sum();
+        double sumOfAllFears = dataset.stream().mapToDouble(value -> (value - mean)*(value - mean)).sum();
         
         double stdev = Math.sqrt(sumOfAllFears/dataset.size());
+        
+        Map<Integer, Integer> guessScoreMap = Game.getRoundGuessMap();
+        Map<Integer, Integer> roundActualMap = Game.getRoundActualMap();
+        
+        for (Entry<Integer, Integer> entry : guessScoreMap.entrySet()) {
+        	Integer round = entry.getKey();
+        	Integer score = entry.getValue();
+        	double averageScore = score/(double)aantal;
+        	
+        	System.out.println("Ronde " + round + "Gegokt: " + averageScore);
+        	
+        }
+        for (Entry<Integer, Integer> entry : roundActualMap.entrySet()) {
+        	Integer round = entry.getKey();
+        	Integer score = entry.getValue();
+        	double averageScore = score/(double)aantal;
+        	
+        	System.out.println("Ronde " + round + ", Is daadwerkelijk: " + averageScore);
+        	
+        }
         
         System.out.println("Mean: " + mean + ", stdev: " + stdev );
 //        System.out.println("Mean: " + mean2 + ", stdev: " );
@@ -91,6 +115,7 @@ public class AiTest {
             }
             if (numberOfCardsCounter == 2) {
                 reached2 = true;
+//                break;
             }
         }
         game.setRounds(rounds);

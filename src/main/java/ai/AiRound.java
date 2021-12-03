@@ -10,6 +10,8 @@ import com.mycompany.boerenbridge.Game;
 import com.mycompany.boerenbridge.RobotPlayer;
 import com.mycompany.boerenbridge.Round;
 import com.mycompany.boerenbridge.Suit;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,7 +24,7 @@ import java.util.stream.Collectors;
  * @author b.smeets
  */
 public class AiRound extends Round {
-    
+	
     public AiRound(int numberOfCards, int roundNumber, AbstractPlayer firstPlayer) {
         super(numberOfCards, roundNumber, firstPlayer);
     }
@@ -47,12 +49,34 @@ public class AiRound extends Round {
             increaseScoreFor(winningPlayer);
         }
         
+        keepTrackOfScores();
+        
         end();
          
     }
     
 
-    public void playHand() {
+    private void keepTrackOfScores() {
+    	Map<Integer, Integer> roundGuessMap = Game.getRoundGuessMap();
+    	Map<Integer, Integer> roundActualMap = Game.getRoundActualMap();
+		AbstractPlayer player = getLastPlayer();
+		Integer cumulativeActual = roundActualMap.get(getNumberOfCards());
+		Integer cumulativeGuess = roundGuessMap.get(getNumberOfCards());
+		if (cumulativeActual == null) {
+			cumulativeActual = 0;
+		}
+		if (cumulativeGuess == null) {
+			cumulativeGuess = 0;
+		}
+		
+		cumulativeActual += getScoreFor(player);
+		cumulativeGuess += getSlagenFor(player);
+		
+		roundActualMap.put(getNumberOfCards(), cumulativeActual);
+		roundGuessMap.put(getNumberOfCards(), cumulativeGuess);
+	}
+
+	public void playHand() {
         Card firstCard = null;
         Card winningCard;
         for (AbstractPlayer player : currentHand.getPlayersInOrder()) {

@@ -31,7 +31,7 @@ public class HardeSlagenGuesserTest extends AITest {
 	public void scenario2Test() {
 		List<Card> cardsInHand = new ArrayList<>();
 		cardsInHand.add(new Card(Suit.CLUBS, CardValue.ACE));
-		cardsInHand.add(new Card(Suit.CLUBS, CardValue.JACK));
+		cardsInHand.add(new Card(Suit.CLUBS, CardValue.TEN));
 		RobotPlayer mockRobot = getMockedRobot(cardsInHand);
 		Round mockRound = getMockedRound(cardsInHand);
 		int amountOfSlagenBasedOnCardValues = new HarderSlagenGuesser(mockRobot, mockRound).getAmountOfSlagenBasedOnCardValues();
@@ -42,7 +42,6 @@ public class HardeSlagenGuesserTest extends AITest {
 	public void scenario3Test() {
 		List<Card> cardsInHand = new ArrayList<>();
 		cardsInHand.add(new Card(Suit.CLUBS, CardValue.KING));
-		
 		cardsInHand.add(new Card(Suit.CLUBS, CardValue.QUEEN));
 		RobotPlayer mockRobot = getMockedRobot(cardsInHand);
 		Round mockRound = getMockedRound(cardsInHand);
