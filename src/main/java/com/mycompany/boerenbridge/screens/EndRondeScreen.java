@@ -9,6 +9,8 @@ import com.mycompany.boerenbridge.Game;
 import com.mycompany.boerenbridge.Round;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +73,12 @@ public class EndRondeScreen extends javax.swing.JFrame {
         tableModel.addRow(totalScoreArray);
 
         jTable1.setModel(tableModel);
-        jTable1.scrollRectToVisible(jTable1.getCellRect(jTable1.getRowCount(), 0, true));
+        
+        jTable1.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+            	jTable1.scrollRectToVisible(jTable1.getCellRect(jTable1.getRowCount()-1, 0, true));
+            }
+        });
     }
     
 
