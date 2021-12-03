@@ -95,7 +95,7 @@ public class RoundScreen extends javax.swing.JFrame {
         RealPlayer realPlayer = game.getRealPlayer();
         final List<Card> cardsOfPlayer = realPlayer.getCards();
         paintCards(cardsOfPlayer);
-        
+
         determineTroef();
         
         String currentTitle = getTitle();
@@ -178,7 +178,7 @@ public class RoundScreen extends javax.swing.JFrame {
         RobotPlayer robot = (RobotPlayer)round.getTroefMaker();
         Suit troef = robot.maakTroef();
         round.setTroef(troef);
-        JOptionPane.showMessageDialog(this, robot.getName() + " maakt " + round.getTroef().getNlNaam().toLowerCase() + " troef!");
+        JOptionPane.showMessageDialog(this, robot.getName() + " maakt " + round.getTroef().getNlNaam().toLowerCase() + " troef!", "Troef gemaakt", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void createTroefChooser() {
@@ -967,7 +967,7 @@ public class RoundScreen extends javax.swing.JFrame {
         message.append("\nNa loting is bepaald dat ");
         message.append(troefMaker.getName());
         message.append(" troef mag maken");
-        JOptionPane.showMessageDialog(round.getRondeScreen(), message.toString());
+        JOptionPane.showMessageDialog(round.getRondeScreen(), message.toString(), "Bepaling troef", JOptionPane.INFORMATION_MESSAGE);
         round.setTroefMaker(troefMaker);
     }
     

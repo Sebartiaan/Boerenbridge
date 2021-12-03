@@ -35,7 +35,8 @@ public class AantalSlagenDialog extends javax.swing.JDialog {
         this.round = round;
         this.game = Game.getSingleton();
         initComponents();
-        setTitle("Ronde " + round.getRoundNumber() + ". Aantal kaarten: " + round.getNumberOfCards());
+        int aantalKaartenTotNuGezegd = round.getSlagen().values().stream().filter(Objects::nonNull).reduce(0, Integer::sum);
+        setTitle("Ronde " + round.getRoundNumber() + ". Aantal kaarten: " + round.getNumberOfCards() + ". Aantal gegokte slagen tot nu: " + aantalKaartenTotNuGezegd);
         fillSpinner();
     }
     
@@ -134,6 +135,8 @@ public class AantalSlagenDialog extends javax.swing.JDialog {
         if (!round.getRobotsAfterPlayer().isEmpty()) {
             round.getRondeScreen().doRobotSlagenGuesses(round.getRobotsAfterPlayer());
         }
+        String currentTitle = round.getRondeScreen().getTitle();
+        round.getRondeScreen().setTitle(currentTitle + ". Aantal gegokte slagen: " + round.getSlagen().values().stream().reduce(0, Integer::sum));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
